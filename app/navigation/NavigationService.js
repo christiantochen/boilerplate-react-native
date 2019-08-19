@@ -1,7 +1,6 @@
 import { NavigationActions, StackActions } from 'react-navigation';
 
 let _navigator;
-let _drawerNavigator;
 
 function setTopLevelNavigator(navigatorRef) {
     _navigator = navigatorRef;

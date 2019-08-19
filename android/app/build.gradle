@@ -102,7 +102,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.reactnativeboilerplate"
+        applicationId "com.moca"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -138,9 +138,9 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-reanimated')
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-svg')
+    implementation project(':react-native-reanimated')
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-gesture-handler')
     implementation fileTree(dir: "libs", include: ["*.jar"])

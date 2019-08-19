@@ -13,10 +13,10 @@ import {
 import DrawerMenu from 'app/components/DrawerMenu'
 import HamburgerMenu from 'app/components/HamburgerMenu'
 
-import Splash from 'app/screens/Splash';
-import Login from 'app/screens/Login';
-import PitSelection from 'app/screens/PitSelection';
-import Home from 'app/screens/Home';
+import Splash from 'app/containers/Splash';
+import Login from 'app/containers/Login';
+import PitSelection from 'app/containers/PitSelection';
+import Home from 'app/containers/Home';
 
 const SplashScreen = { screen: Splash }
 const LoginScreen = { screen: Login }
@@ -57,7 +57,7 @@ const RNApp = createStackNavigator(
         PitSelection: PitSelectionScreen,
         App: AppDrawerNavigator
     }, {
-        initialRouteName: 'App',
+        initialRouteName: 'Splash',
         headerMode: 'none'
     }
 );
