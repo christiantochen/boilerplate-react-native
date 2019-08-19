@@ -4,8 +4,6 @@ let _navigator;
 
 function setTopLevelNavigator(navigatorRef) {
     _navigator = navigatorRef;
-
-    console.log(_navigator);
 }
 
 function navigate(routeName, params, opts = {}) {

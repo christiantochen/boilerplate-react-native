@@ -76,7 +76,7 @@ class PitSelectionView extends Component {
             <View style={styles.container}>
                 <ScrollView style={{ paddingLeft: 24, paddingRight: 24 }}>
                     <View style={{ height: 24 }} />
-                    <Text style={styles.title}>Hi, {this.props.loginInfo.username}</Text>
+                    <Text style={styles.title}>Hi, {this.props.session.username}</Text>
                     <View style={{ height: 10 }} />
                     <Text style={styles.subTitle}>Select a pit to continue</Text>
                     <View style={{ height: 18 }} />

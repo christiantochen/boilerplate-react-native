@@ -18,7 +18,6 @@ class DrawerMenu extends Component {
     constructor(props) {
         super(props);
 
-        console.log(props.navigation.state)
     }
 
     render() {

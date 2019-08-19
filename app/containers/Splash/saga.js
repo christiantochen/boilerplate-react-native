@@ -1,15 +1,21 @@
 import { call, select } from 'redux-saga/effects';
 import NavigationService from 'app/navigation/NavigationService';
 
-export const getLoginInfo = (state) => state.loginReducer
+export const getSession = (state) => state.sessionReducer
+export const getSelectedPit = (state) => state.pitSelectionReducer
 
 // Our worker Saga that logins the user
 export default function* onSplashScreenReady(action) {
-    const loginInfo = yield select(getLoginInfo);
-    
-    if (loginInfo.token) {
-        yield call(NavigationService.navigate, 'App', null, { replaceStack: true });
+    const session = yield select(getSession);
+    const pitInfo = yield select(getSelectedPit);
+
+    if (session.token) {
+        if (pitInfo && pitInfo.selectedPit) {
+            yield call(NavigationService.navigate, 'App', null, { replaceStack: true });
+        } else {
+            yield call(NavigationService.navigate, 'PitSelection', null, { replaceStack: true });
+        }
     } else {
-        yield call(NavigationService.navigate, 'Login', { token: loginInfo.token }, { replaceStack: true });
+        yield call(NavigationService.navigate, 'Login', null, { replaceStack: true });
     }
 }

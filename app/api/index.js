@@ -22,12 +22,12 @@ function querystring(query = {}) {
 export default function api(path, params, method, token) {
     let url = ApiConstants.BASE_URL + path;
     let options;
-
+    
     options = {
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            ...(token && { token: token })
+            'Authorization': `Bearer ${token}`
         },
         method: method
     };

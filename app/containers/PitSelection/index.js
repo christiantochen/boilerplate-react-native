@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import View from './view';
-// import * as actions from 'app/store/contrators/action';
+import * as actions from '../../models/contractors/action';
 
 class PitSelectionContainer extends Component {
     constructor(props) {
@@ -9,11 +9,11 @@ class PitSelectionContainer extends Component {
     }
 
     componentDidMount() {
-        // const {
-        //     requestContractors
-        // } = this.props
+        const {
+            requestContractors
+        } = this.props
 
-        // requestContractors();
+        requestContractors();
     }
 
     render() {
@@ -24,13 +24,13 @@ class PitSelectionContainer extends Component {
 function mapStateToProps(state) {
     return {
         contractors: state.contractorReducer.contractors,
-        loginInfo: state.loginReducer
+        session: state.sessionReducer
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        // requestContractors: () => dispatch(actions.requestContractors({ include: "pit" }))
+        requestContractors: () => dispatch(actions.requestContractors({ include: "pit" }))
     };
 }
 

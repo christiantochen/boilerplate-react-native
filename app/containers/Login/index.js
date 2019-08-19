@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as LoginActions from './actions';
+import * as LoginActions from '../../models/sessions/action';
 import View from './view';
 
 class LoginContainer extends Component {
@@ -13,8 +13,11 @@ class LoginContainer extends Component {
     }
 }
 
-function mapStateToProps() {
-    return {};
+function mapStateToProps(state) {
+    return {
+        username: state.sessionReducer.username,
+        password: state.sessionReducer.password
+    };
 }
 
 function mapDispatchToProps(dispatch) {

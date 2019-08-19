@@ -18,8 +18,8 @@ class LoginView extends Component {
         super(props)
 
         this.state = {
-            username: '',
-            password: ''
+            username: props.username,
+            password: props.password
         }
 
         this.handleLogin = this.handleLogin.bind(this);
@@ -46,6 +46,7 @@ class LoginView extends Component {
                 <Input style={styles.textInput} placeholder="Username"
                     returnKeyType={"next"} blurOnSubmit={false}
                     placeholderTextColor="#CECECE" autoCapitalize="none"
+                    value={this.state.username}
                     onChangeText={value => this.setState({ username: value })} />
             </View>
         )
@@ -57,6 +58,7 @@ class LoginView extends Component {
                 <Image style={styles.textInputIcon} source={require('app/assets/ic_password.png')} />
                 <Input style={styles.textInput} placeholder="Password" secureTextEntry={true}
                     placeholderTextColor="#CECECE" autoCapitalize="none"
+                    value={this.state.password}
                     onChangeText={value => this.setState({ password: value })} />
             </View>
         )
