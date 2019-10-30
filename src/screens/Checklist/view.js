@@ -8,6 +8,25 @@ class ChecklistView extends Component {
     super(props)
 
     this.state = {}
+
+    // this.handleCreateButton = this.handleCreateButton.bind(this)
+  }
+
+  handleCreateButton(checklistLabel) {
+    switch (checklistLabel) {
+      case 'Coal Winning':
+        this.props.navigation.navigate({
+          routeName: 'ChecklistCoalWinningCreate',
+        })
+        break
+      case 'OB Removal':
+      case 'Dumping Point':
+      case 'Blasting Activity':
+      case 'Support Equipment':
+      case 'Rain and Slippery':
+      default:
+        break
+    }
   }
 
   renderChecklistCardItemWithButton(item) {
@@ -81,7 +100,12 @@ class ChecklistView extends Component {
           }}
         >
           <Text style={{ flex: 1 }}>{checklistLabel}</Text>
-          <Button rounded small style={{ backgroundColor: 'white' }}>
+          <Button
+            rounded
+            small
+            style={{ backgroundColor: 'white' }}
+            onPress={() => this.handleCreateButton(checklistLabel)}
+          >
             <Icon
               type="MaterialIcons"
               name="add"
@@ -93,12 +117,6 @@ class ChecklistView extends Component {
                 marginTop: 2,
                 marginBottom: 2,
               }}
-              onPress={() =>
-                Toast.show({
-                  text: 'Still in Development',
-                  buttonText: 'Okay',
-                })
-              }
             />
           </Button>
         </CardItem>

@@ -9,10 +9,15 @@ class DrawerMenu extends Component {
   }
 
   render() {
+    const canGoBack = this.props.navigation.dangerouslyGetParent().state.index > 0
+
     return (
       <Icon
-        onPress={this.props.navigation.toggleDrawer}
-        color="white" name="menu"
+        onPress={
+          canGoBack ? () => this.props.navigation.goBack() : this.props.navigation.toggleDrawer
+        }
+        color="white"
+        name={canGoBack ? 'arrow-back' : 'menu'}
         size={24}
         containerStyle={Styles.icon}
       />

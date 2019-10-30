@@ -9,15 +9,21 @@ import { ACCENT_COLOR, TEXT_COLOR_WHITE, TEXT_COLOR_GRAY } from '../fixtures/sty
 
 import Sidebar from 'app/components/Sidebar'
 
-import { Splash, Home, Login, PitSelection, Checklist } from '../screens'
+import {
+  Splash,
+  Home,
+  Login,
+  PitSelection,
+  Checklist,
+  ChecklistCoalWinningCreate,
+} from '../screens'
 
 const SplashScreen = { screen: Splash }
 const LoginScreen = { screen: Login }
 const PitSelectionScreen = { screen: PitSelection }
 const HomeScreen = { screen: Home }
-const ChecklistScreen = { screen: Checklist }
 
-const options = {
+const stackOptions = {
   defaultNavigationOptions: {
     headerStyle: {
       backgroundColor: ACCENT_COLOR,
@@ -27,14 +33,22 @@ const options = {
       fontWeight: 'bold',
     },
   },
+  navigationOptions: ({ navigation }) => {
+    return { tabBarVisible: navigation.state.routes.length === 1 }
+  },
+}
+
+const ChecklistStack = {
+  Checklist: { screen: Checklist },
+  ChecklistCoalWinningCreate: { screen: ChecklistCoalWinningCreate },
 }
 
 const bottomTabNavigator = createBottomTabNavigator(
   {
-    Tasks: createStackNavigator({ Tasks: HomeScreen }, options),
-    Performances: createStackNavigator({ Performances: HomeScreen }, options),
-    Checklist: createStackNavigator({ Checklist: ChecklistScreen }, options),
-    Report: createStackNavigator({ Report: HomeScreen }, options),
+    Tasks: createStackNavigator({ Tasks: HomeScreen }, stackOptions),
+    Performances: createStackNavigator({ Performances: HomeScreen }, stackOptions),
+    Checklist: createStackNavigator(ChecklistStack, stackOptions),
+    Report: createStackNavigator({ Report: HomeScreen }, stackOptions),
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -59,12 +73,8 @@ const bottomTabNavigator = createBottomTabNavigator(
 )
 
 const drawerNavigator = createDrawerNavigator(
-  {
-    Home: bottomTabNavigator,
-  },
-  {
-    contentComponent: Sidebar,
-  }
+  { Home: bottomTabNavigator },
+  { contentComponent: Sidebar }
 )
 
 const nav = createSwitchNavigator(
@@ -74,9 +84,7 @@ const nav = createSwitchNavigator(
     PitSelection: PitSelectionScreen,
     App: drawerNavigator,
   },
-  {
-    initialRouteName: 'Splash',
-  }
+  { initialRouteName: 'Splash' }
 )
 
 export default createAppContainer(nav)

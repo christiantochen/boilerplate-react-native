@@ -24,8 +24,10 @@ class ChecklistContainer extends Component {
 }
 
 function mapStateToProps(state) {
+  const selectedPitId = state.sessionReducer.selectedPit ? state.sessionReducer.selectedPit.id : 0
+
   return {
-    checklistPerPit: state.checklistReducer[state.sessionReducer.selectedPit.id] || {},
+    checklistPerPit: state.checklistReducer[selectedPitId] || {},
     checklist: state.checklistReducer,
   }
 }
