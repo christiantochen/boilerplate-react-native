@@ -1,11 +1,12 @@
 /* App config for apis
  */
 const ApiConstants = {
-    // BASE_URL: 'http://172.22.201.166/',
-    BASE_URL: 'http://10.0.2.2:8000/',
-    LOGIN: 'login',
-    LOGOUT: 'logout',
-    GET_CONTRACTORS: 'contractors'
-};
+  // BASE_URL: 'http://172.22.201.166/',
+  BASE_URL: 'http://10.0.2.2:8000/',
+  LOGIN: 'login',
+  LOGOUT: 'logout',
+  GET_CONTRACTORS: 'contractors',
+  GET_CHECKLIST: 'checklist'
+}
 
-export default ApiConstants;
+export default ApiConstants

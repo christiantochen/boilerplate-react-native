@@ -1,11 +1,11 @@
 import lo from 'lodash'
 import React, { Component } from 'react'
-import { View, Text, Image, TouchableHighlight } from 'react-native'
+import { Icon, Text, Button } from 'native-base'
+import { View, TouchableHighlight } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import LinearGradient from 'react-native-linear-gradient'
 import PropTypes from 'prop-types'
 import styles from './styles'
-import { BUTTON_COLOR_GRADIENT } from 'app/fixtures/styles'
 
 class PitSelectionView extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -46,11 +46,13 @@ class PitSelectionView extends Component {
   }
 
   renderChecker(value) {
-    if (value) {
-      return <Image style={styles.pitIcon} source={require(`assets/ic_check_true.png`)} />
-    } else {
-      return <Image style={styles.pitIcon} source={require('assets/ic_check_false.png')} />
-    }
+    return (
+      <Icon
+        type="MaterialCommunityIcons"
+        name="check-circle"
+        style={{ fontSize: 28, color: value ? '#5CBE80' : '#F3F3F3' }}
+      />
+    )
   }
 
   renderPit(pit, contractor) {
@@ -83,24 +85,13 @@ class PitSelectionView extends Component {
     return (
       <View style={styles.container}>
         <ScrollView style={{ paddingLeft: 24, paddingRight: 24 }}>
-          <View style={{ height: 24 }} />
           <Text style={styles.title}>Hi, {this.props.session.displayName}</Text>
-          <View style={{ height: 10 }} />
           <Text style={styles.subTitle}>Select a pit to continue</Text>
-          <View style={{ height: 18 }} />
           {this.props.contractors.map((contractor) => this.renderContractor(contractor))}
-          <View style={{ height: 8 }} />
         </ScrollView>
-        <TouchableHighlight underlayColor="#FFFFFF" onPress={this.handleContinueButton}>
-          <LinearGradient
-            style={{ padding: 12 }}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 4, y: 0 }}
-            colors={BUTTON_COLOR_GRADIENT}
-          >
-            <Text style={styles.continueButtonText}>Continue</Text>
-          </LinearGradient>
-        </TouchableHighlight>
+        <Button style={styles.continueButton} onPress={this.handleContinueButton}>
+          <Text style={styles.continueButtonText}>Continue</Text>
+        </Button>
       </View>
     )
   }

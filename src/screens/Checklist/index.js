@@ -1,32 +1,54 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import HomeView from './view';
-import DrawerMenu from '../../components/DrawerMenu';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import ChecklistView from './view'
+import DrawerMenu from '../../components/DrawerMenu'
+import { ChecklistAction } from '../../actions'
 
-class HomeContainer extends Component {
+class ChecklistContainer extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: 'Home',
-    headerLeft: <DrawerMenu />
-  });
+    title: 'Checklist',
+    headerLeft: <DrawerMenu />,
+  })
 
   constructor(props) {
-    super(props);
+    super(props)
+  }
+
+  componentDidMount() {
+    this.props.fetchChecklist()
   }
 
   render() {
-    return <HomeView {...this.props} />;
+    return <ChecklistView {...this.props} />
   }
 }
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    checklistPerPit: state.checklistReducer[state.sessionReducer.selectedPit.id] || {},
+    checklist: state.checklistReducer,
+  }
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    fetchChecklist: (types) =>
+      dispatch(
+        ChecklistAction.getChecklistRequest({
+          types: [
+            'COAL_WINNING',
+            'OB_REMOVAL',
+            'DUMPING',
+            'BLASTING',
+            'SUPPORT_EQUIPMENT',
+            'RAINFALL',
+          ],
+        })
+      ),
+  }
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(HomeContainer);
+)(ChecklistContainer)

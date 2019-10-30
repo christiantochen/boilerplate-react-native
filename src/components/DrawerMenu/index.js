@@ -12,7 +12,7 @@ class DrawerMenu extends Component {
     return (
       <Icon
         onPress={this.props.navigation.toggleDrawer}
-        color="#FFFFFF" name="menu"
+        color="white" name="menu"
         size={24}
         containerStyle={Styles.icon}
       />

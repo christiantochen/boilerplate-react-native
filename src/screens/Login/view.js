@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { View, Text, Image, TouchableHighlight, TextInput } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
+import { Form, Input, Icon, Text, Button, Label, Item } from 'native-base'
+import { View, Image } from 'react-native'
 import styles from './styles'
 import PropTypes from 'prop-types'
 
@@ -11,6 +11,8 @@ class LoginView extends Component {
     this.state = {
       username: props.session.username,
       password: props.session.password,
+      usernameErrorText: undefined,
+      passwordErrorText: undefined,
     }
 
     this.handleLogin = this.handleLogin.bind(this)
@@ -29,73 +31,46 @@ class LoginView extends Component {
 
   renderUsernameInput() {
     return (
-      <View style={styles.textInputContainer}>
-        <Image style={styles.textInputIcon} source={require('assets/ic_password.png')} />
-        <TextInput
-          style={styles.textInput}
-          placeholder="Username"
-          returnKeyType={'next'}
-          blurOnSubmit={false}
-          placeholderTextColor="#CECECE"
-          autoCapitalize="none"
-          value={this.state.username}
-          onChangeText={(value) => this.setState({ username: value })}
-        />
-      </View>
+      <Input
+        returnKeyType={'next'}
+        blurOnSubmit={false}
+        placeholderTextColor="#CECECE"
+        value={this.state.username}
+        onChangeText={(value) => this.setState({ username: value })}
+      />
     )
   }
 
   renderPasswordInput() {
     return (
-      <View style={styles.textInputContainer}>
-        <Image style={styles.textInputIcon} source={require('assets/ic_password.png')} />
-        <TextInput
-          style={styles.textInput}
-          placeholder="Password"
-          secureTextEntry={true}
-          placeholderTextColor="#CECECE"
-          autoCapitalize="none"
-          value={this.state.password}
-          onChangeText={(value) => this.setState({ password: value })}
-        />
-      </View>
+      <Input
+        secureTextEntry={true}
+        autoCapitalize="none"
+        value={this.state.password}
+        onChangeText={(value) => this.setState({ password: value })}
+      />
     )
   }
 
   renderSubmitButton() {
     return (
-      <TouchableHighlight
-        style={styles.buttonOnPressed}
-        underlayColor="#FFFFFF"
-        onPress={this.handleLogin}
-      >
-        <LinearGradient
-          style={styles.submitButton}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 4, y: 0 }}
-          colors={['#463291', '#c800ff']}
-        >
-          <Text style={styles.submitButtonText}>Log in</Text>
-        </LinearGradient>
-      </TouchableHighlight>
+      <Button full style={styles.submitButton} onPress={this.handleLogin}>
+        <Text style={styles.submitButtonText}>Login</Text>
+      </Button>
     )
   }
 
   renderFingerprintButton() {
     return (
-      <TouchableHighlight
-        style={styles.buttonOnPressed}
-        underlayColor="#FFFFFF"
-        onPress={this.handleFingerPrint}
-      >
-        <View style={styles.fingerprintButton}>
-          <Image
-            style={styles.fingerprintButtonIcon}
-            source={require('assets/ic_fingerprint.png')}
-          />
-          <Text style={styles.fingerprintButtonText}>Click to login using fingerprint</Text>
-        </View>
-      </TouchableHighlight>
+      <Button full style={styles.fingerprintButton} onPress={this.handleFingerPrint}>
+        <Icon
+          type="MaterialCommunityIcons"
+          name="fingerprint"
+          size={24}
+          style={styles.fingerprintButtonIcon}
+        />
+        <Text style={styles.fingerprintButtonText}>Click to login using fingerprint</Text>
+      </Button>
     )
   }
 
@@ -111,16 +86,19 @@ class LoginView extends Component {
 
   renderContent() {
     return (
-      <View style={styles.content}>
-        <View style={{ height: 14 }} />
-        {this.renderUsernameInput()}
-        <View style={{ height: 16 }} />
-        {this.renderPasswordInput()}
-        <View style={{ height: 16 }} />
+      <Form style={styles.content}>
+        <Item stackedLabel>
+          <Label>Username</Label>
+          {this.renderUsernameInput()}
+        </Item>
+        <Item stackedLabel>
+          <Label>Password</Label>
+          {this.renderPasswordInput()}
+        </Item>
         {this.renderSubmitButton()}
         <View style={{ flex: 1, minHeight: 16 }} />
         {this.renderFingerprintButton()}
-      </View>
+      </Form>
     )
   }
 
