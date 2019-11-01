@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon } from 'react-native-elements'
+import { Icon } from 'native-base'
 import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
@@ -55,13 +55,37 @@ const bottomTabNavigator = createBottomTabNavigator(
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         const { routeName } = navigation.state
         if (routeName === 'Tasks') {
-          return <Icon size={24} name="announcement" color={tintColor} />
+          return (
+            <Icon
+              type="MaterialIcons"
+              name="announcement"
+              style={{ color: tintColor, width: 24, height: 24 }}
+            />
+          )
         } else if (routeName === 'Performances') {
-          return <Icon size={24} name="assessment" color={tintColor} />
+          return (
+            <Icon
+              type="MaterialIcons"
+              name="assessment"
+              style={{ color: tintColor, width: 24, height: 24 }}
+            />
+          )
         } else if (routeName === 'Checklist') {
-          return <Icon size={24} name="assignment" color={tintColor} />
+          return (
+            <Icon
+              type="MaterialIcons"
+              name="assignment"
+              style={{ color: tintColor, width: 24, height: 24 }}
+            />
+          )
         } else {
-          return <Icon size={24} name="description" color={tintColor} />
+          return (
+            <Icon
+              type="MaterialIcons"
+              name="description"
+              style={{ color: tintColor, width: 24, height: 24 }}
+            />
+          )
         }
       },
     }),

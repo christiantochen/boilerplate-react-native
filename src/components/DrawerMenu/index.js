@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Avatar, Icon, Text } from 'react-native-elements'
-import Styles from './styles'
+import { Icon } from 'native-base'
+import styles from './styles'
 import { withNavigation } from 'react-navigation'
 
 class DrawerMenu extends Component {
@@ -16,10 +16,8 @@ class DrawerMenu extends Component {
         onPress={
           canGoBack ? () => this.props.navigation.goBack() : this.props.navigation.toggleDrawer
         }
-        color="white"
         name={canGoBack ? 'arrow-back' : 'menu'}
-        size={24}
-        containerStyle={Styles.icon}
+        style={styles.icon}
       />
     )
   }

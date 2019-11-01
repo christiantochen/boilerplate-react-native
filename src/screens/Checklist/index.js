@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ChecklistView from './view'
 import DrawerMenu from '../../components/DrawerMenu'
-import { ChecklistAction } from '../../actions'
+import { ChecklistAction, ExcavatorAction } from '../../actions'
 
 class ChecklistContainer extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -16,6 +16,7 @@ class ChecklistContainer extends Component {
 
   componentDidMount() {
     this.props.fetchChecklist()
+    this.props.fetchExcavators()
   }
 
   render() {
@@ -34,7 +35,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchChecklist: (types) =>
+    fetchExcavators: () => dispatch(ExcavatorAction.getExcavatorRequest()),
+    fetchChecklist: () =>
       dispatch(
         ChecklistAction.getChecklistRequest({
           types: [

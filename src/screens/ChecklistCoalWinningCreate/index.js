@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ChecklistCoalWinningCreateView from './view'
 import DrawerMenu from '../../components/DrawerMenu'
-import { ChecklistAction } from '../../actions'
+import { SessionAction } from '../../actions'
 
 class ChecklistCoalWinningCreateContainer extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -22,7 +22,11 @@ class ChecklistCoalWinningCreateContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  return {}
+  const selectedPit = state.sessionReducer.selectedPit
+  return {
+    selectedPit,
+    excavators: state.excavatorReducer[selectedPit.id] || [],
+  }
 }
 
 function mapDispatchToProps(dispatch) {

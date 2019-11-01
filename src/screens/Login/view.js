@@ -34,6 +34,7 @@ class LoginView extends Component {
       <Input
         returnKeyType={'next'}
         blurOnSubmit={false}
+        autoCapitalize="none"
         placeholderTextColor="#CECECE"
         value={this.state.username}
         onChangeText={(value) => this.setState({ username: value })}
