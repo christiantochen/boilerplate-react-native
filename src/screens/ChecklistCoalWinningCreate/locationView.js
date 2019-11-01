@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { View, ScrollView } from 'react-native'
-import { Card, CardItem, Text, Picker, Label, Button, Icon } from 'native-base'
+import { ScrollView } from 'react-native'
+import { Card, CardItem, Text, Picker, Label, Button, Icon, Toast } from 'native-base'
 import { ACCENT_COLOR } from '../../fixtures/styles'
+import styles from './styles'
 
 class LocationView extends Component {
   constructor(props) {
@@ -14,135 +15,87 @@ class LocationView extends Component {
     }
   }
 
+  Timesheet(style) {
+    return (
+      <CardItem style={style}>
+        <Label style={styles.labelInCard}>Timesheet(s)</Label>
+        <Text style={{ fontSize: 14 }}></Text>
+      </CardItem>
+    )
+  }
+
+  Elevation(style) {
+    return (
+      <CardItem style={style}>
+        <Label style={styles.labelInCard}>Elevation</Label>
+        <Text style={{ fontSize: 14 }}></Text>
+      </CardItem>
+    )
+  }
+
+  Section(style) {
+    return (
+      <CardItem style={style}>
+        <Label style={styles.labelInCard}>Section</Label>
+        <Text style={{ fontSize: 14 }}></Text>
+      </CardItem>
+    )
+  }
+
+  Seam(style) {
+    return (
+      <CardItem style={style}>
+        <Label style={styles.labelInCard}>Seam</Label>
+        <Picker mode="dropdown" style={styles.dropdownPicker}></Picker>
+      </CardItem>
+    )
+  }
+
+  cardFooter() {
+    return (
+      <CardItem style={{ justifyContent: 'flex-end', ...styles.borderBottomRadius }}>
+        <Button
+          bordered
+          style={{ ...styles.locationDetailButton, marginRight: 8 }}
+          onPress={this.addTimesheet.bind(this)}
+        >
+          <Icon style={styles.locationDetailButtonIcon} type="MaterialIcons" name="add-alarm" />
+          <Text style={styles.locationDetailButtonText}>Add Timesheet</Text>
+        </Button>
+        <Button bordered style={styles.locationDetailButton} onPress={this.viewOthers.bind(this)}>
+          <Icon style={styles.locationDetailButtonIcon} type="MaterialIcons" name="assignment-turned-in" />
+          <Text style={styles.locationDetailButtonText}>View Others</Text>
+        </Button>
+      </CardItem>
+    )
+  }
+
+  cardHeader(title) {
+    return (
+      <CardItem style={{ ...styles.borderTopRadius, padding: 16, backgroundColor: '#D8D8D8' }}>
+        <Text style={{ fontSize: 16 }}>{title}</Text>
+      </CardItem>
+    )
+  }
+
+  addTimesheet() {
+    Toast.show({ text: 'In Development' })
+  }
+
+  viewOthers() {
+    Toast.show({ text: 'In Development' })
+  }
+
   render() {
     return (
       <ScrollView style={{ padding: 16, display: this.props.show ? 'flex' : 'none' }}>
-        <Card style={{ borderRadius: 12 }}>
-          <CardItem
-            style={{
-              borderTopLeftRadius: 12,
-              borderTopRightRadius: 12,
-              padding: 16,
-              backgroundColor: '#D8D8D8',
-            }}
-          >
-            <Text>Location Details</Text>
-          </CardItem>
-          <CardItem
-            style={{
-              borderBottomWidth: 1,
-              borderBottomColor: '#AFAFB9',
-              padding: 16,
-            }}
-          >
-            <Label style={{ flex: 1, fontSize: 14 }}>Seam</Label>
-            <Picker
-              mode="dropdown"
-              placeholder="Select Excavator"
-              style={{
-                width: undefined,
-                height: 16,
-                padding: 0,
-                marginTop: 3,
-                marginRight: -22,
-                transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }],
-              }}
-              itemStyle={{ fontSize: 14 }}
-              placeholderStyle={{ color: '#bfc6ea' }}
-              placeholderIconColor="#007aff"
-              //   selectedValue={this.state.excavatorId}
-              //   onValueChange={this.onExcavatorChange.bind(this)}
-            ></Picker>
-          </CardItem>
-          <CardItem
-            style={{
-              borderBottomWidth: 1,
-              borderBottomColor: '#AFAFB9',
-              padding: 16,
-            }}
-          >
-            <Label style={{ flex: 1, fontSize: 14 }}>Section</Label>
-          </CardItem>
-          <CardItem
-            style={{
-              borderBottomWidth: 1,
-              borderBottomColor: '#AFAFB9',
-              padding: 16,
-            }}
-          >
-            <Label style={{ flex: 1, fontSize: 14 }}>Elevation</Label>
-          </CardItem>
-          <CardItem
-            style={{
-              borderBottomWidth: 1,
-              borderBottomColor: '#AFAFB9',
-              padding: 16,
-            }}
-          >
-            <Label style={{ flex: 1, fontSize: 14 }}>Timesheet(s)</Label>
-          </CardItem>
-          <CardItem
-            style={{
-              justifyContent: 'flex-end',
-              borderBottomLeftRadius: 12,
-              borderBottomRightRadius: 12,
-              padding: 16,
-            }}
-          >
-            <Button
-              transparent
-              bordered
-              style={{
-                paddingTop: 0,
-                paddingBottom: 0,
-                paddingRight: 0,
-                paddingLeft: 0,
-                height: 40,
-                marginRight: 8,
-                borderColor: ACCENT_COLOR,
-              }}
-            >
-              <Icon
-                style={{
-                  fontSize: 18,
-                  marginLeft: 8,
-                  marginRight: 6,
-                  color: ACCENT_COLOR,
-                }}
-                type="MaterialIcons"
-                name="add-alarm"
-              />
-              <Text style={{ paddingLeft: 0, paddingRight: 8, fontSize: 12, color: ACCENT_COLOR }}>
-                Add Timesheet
-              </Text>
-            </Button>
-            <Button
-              transparent
-              bordered
-              style={{
-                paddingTop: 0,
-                paddingBottom: 0,
-                paddingRight: 0,
-                paddingLeft: 0,
-                height: 40,
-                borderColor: ACCENT_COLOR,
-              }}
-            >
-              <Icon
-                style={{
-                  fontSize: 18,
-                  marginLeft: 8,
-                  marginRight: 6,
-                  color: ACCENT_COLOR,
-                }}
-                type="MaterialIcons"
-                name="assignment-turned-in"
-              />
-              <Text style={{ paddingLeft: 0, paddingRight: 8, fontSize: 12, color: ACCENT_COLOR }}>
-                View Others
-              </Text>
-            </Button>
-          </CardItem>
+        <Card style={styles.borderRadius}>
+          {this.cardHeader('Location Details')}
+          {this.Seam(styles.borderBottomDivider)}
+          {this.Section(styles.borderBottomDivider)}
+          {this.Elevation(styles.borderBottomDivider)}
+          {this.Timesheet(styles.borderBottomDivider)}
+          {this.cardFooter()}
         </Card>
         <Icon
           type="MaterialIcons"

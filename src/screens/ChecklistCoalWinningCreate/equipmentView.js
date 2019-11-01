@@ -181,8 +181,7 @@ class EquipmentView extends Component {
         <Label style={styles.labelInCard}>Excavator</Label>
         <Picker
           mode="dropdown"
-          placeholder="Select Excavator"
-          style={styles.excavatorPicker}
+          style={styles.dropdownPicker}
           selectedValue={this.state.excavatorId}
           onValueChange={this.onExcavatorChange}
         >
