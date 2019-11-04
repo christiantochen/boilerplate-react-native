@@ -13,6 +13,7 @@ export default function* getContractorRequest(action) {
   const { types } = action.opts
 
   for (const type of types) {
+    console.log('getContractorRequest for')
     const response = yield call(
       getAllChecklist,
       { type, lastSyncDate: checklistInfo.lastSyncDate, pitId: id },

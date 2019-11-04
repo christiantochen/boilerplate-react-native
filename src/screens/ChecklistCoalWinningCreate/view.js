@@ -12,6 +12,9 @@ class ChecklistCoalWinningCreateView extends Component {
   constructor(props) {
     super(props)
 
+    const coalWinningPlan = props.operationalPlan.plans['coalWinning'] || { dumpTruck: 0 }
+    const cleaningUnitPlan = props.operationalPlan.plans['cleaningUnit'] || 0
+
     this.state = {
       step: 1,
       coalWinning: {
@@ -25,10 +28,20 @@ class ChecklistCoalWinningCreateView extends Component {
         dozerCount: 0,
         dozerRemark: undefined,
         dumpTruckActual: 0,
-        dumpTruckPlan: 0,
+        dumpTruckPlan: coalWinningPlan.dumpTruck,
         cleaningUnitActual: 0,
-        cleaningUnitPlan: 0,
-        locations: [],
+        cleaningUnitPlan,
+        locations: [
+          {
+            id: 1,
+            seam: props.operationalPlan.seams[0],
+            sectionPrefix: props.operationalPlan.sectionPrefix,
+            sectionFrom: props.operationalPlan.sectionFrom,
+            sectionTo: undefined,
+            elevation: 0,
+            others: [],
+          },
+        ],
         photosBase64: [],
       },
     }
@@ -80,9 +93,22 @@ class ChecklistCoalWinningCreateView extends Component {
           {this.headerIcon('Support', 2)}
           {this.headerIcon('Location', 3, { right: 27 })}
         </View>
-        <EquipmentView show={this.state.step === 1} {...this.props} {...this.state.coalWinning} />
-        <SupportView show={this.state.step === 2} {...this.props} {...this.state.coalWinning} />
-        <LocationView show={this.state.step === 3} {...this.props} {...this.state.coalWinning} />
+        <EquipmentView
+          show={this.state.step === 1}
+          excavators={this.props.excavators}
+          selectedPit={this.props.selectedPit}
+          {...this.state.coalWinning}
+        />
+        <SupportView
+          show={this.state.step === 2}
+          operationalPlan={this.props.operationalPlan}
+          {...this.state.coalWinning}
+        />
+        <LocationView
+          show={this.state.step === 3}
+          operationalPlan={this.props.operationalPlan}
+          locations={this.state.coalWinning.locations}
+        />
         <View style={{ flexDirection: 'row' }}>
           {this.footerButton('Previous', [2, 3], this.onPrevious.bind(this))}
           {this.footerButton('Next', [1, 2], this.onNext.bind(this), { textAlign: 'right' })}

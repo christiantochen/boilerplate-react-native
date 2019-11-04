@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: grayColor,
   },
-  icon: { width: 24, height: 25 },
+  icon: { fontSize: 24 },
   //
   container: {
     flex: 1,
@@ -70,21 +70,29 @@ const styles = StyleSheet.create({
   checkIcon: {
     marginLeft: 12,
   },
+  dropdownPickerContainer: {
+    width: 125,
+  },
   dropdownPicker: {
     height: 24,
     marginTop: 0,
     marginRight: -22,
     transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }],
   },
+  input: {
+    flex: 0,
+    fontSize: 14,
+    padding: 0,
+    height: 24,
+    textAlign: 'right',
+    borderBottomColor: '#AFAFB9',
+    borderBottomWidth: 1,
+  },
   label: { fontSize: 12, color: grayColor },
   labelInCard: { flex: 1, fontSize: 14, color: grayColor },
   locationDetailButton: { height: 40, borderColor: ACCENT_COLOR },
   locationDetailButtonIcon: { fontSize: 18, marginLeft: 8, marginRight: 6, color: ACCENT_COLOR },
   locationDetailButtonText: { paddingLeft: 0, paddingRight: 8, fontSize: 12, color: ACCENT_COLOR },
-  remarksArea: {
-    backgroundColor: 'white',
-    borderColor: grayColor,
-  },
   photoItemContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -103,6 +111,10 @@ const styles = StyleSheet.create({
   photoItemButton: {
     paddingHorizontal: 16,
     paddingVertical: 8,
+  },
+  remarksArea: {
+    backgroundColor: 'white',
+    borderColor: grayColor,
   },
 })
 

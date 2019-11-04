@@ -16,6 +16,7 @@ const initialState = {
 
 export const checklistReducer = createReducer(initialState, {
   [GET_CHECKLIST_REQUEST](state) {
+    console.log('checklistReducer GET_CHECKLIST_REQUEST')
     return {
       ...state,
       isLoading: true,

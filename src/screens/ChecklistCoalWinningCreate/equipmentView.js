@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Text, Card, CardItem, Icon, Label, Picker, Textarea, ActionSheet } from 'native-base'
-import { View, ScrollView, Image } from 'react-native'
+import { Text, Card, CardItem, Icon, Label, Picker, Textarea, ActionSheet, Button } from 'native-base'
+import { View, ScrollView, Image, Alert, Modal } from 'react-native'
 import { ACCENT_COLOR } from '../../fixtures/styles'
 import { TouchableHighlight } from 'react-native-gesture-handler'
+import ImageViewer from 'react-native-image-zoom-viewer'
 import ImagePicker from 'react-native-image-crop-picker'
 import styles from './styles'
 
@@ -56,17 +57,30 @@ class EquipmentView extends Component {
       noActivity,
       remarks,
       photosBase64,
+      modalPhotosShow: false,
+      modalPhotosShowIndex: 0,
     }
+
+    this.onExcavatorChange = this.onExcavatorChange.bind(this)
+    this.handleIsGood = this.handleIsGood.bind(this)
+    this.handleNoActivity = this.handleNoActivity.bind(this)
+    this.handlePhotos = this.handlePhotos.bind(this)
+    this.handlePhotosModal = this.handlePhotosModal.bind(this)
   }
 
   hideWhenNoActivity() {
-    const display = this.state.noActivity ? 'none' : 'flex'
-    return { display }
+    return { display: this.state.noActivity ? 'none' : 'flex' }
+  }
+
+  handlePhotosModal(index) {
+    this.setState({ modalPhotosShow: true, modalPhotosShowIndex: index })
   }
 
   handlePhotos() {
-    ActionSheet.show(ACTION_SHEET_OPTIONS, async (index) => {
-      const { photosBase64 } = this.state
+    var self = this
+    const { photosBase64 } = this.state
+
+    ActionSheet.show(ACTION_SHEET_OPTIONS, async function(index) {
       const base64prefix = 'data:image/png;base64,'
 
       switch (index) {
@@ -84,7 +98,7 @@ class EquipmentView extends Component {
           break
       }
 
-      this.setState({ photosBase64 })
+      self.setState({ photosBase64 })
     })
   }
 
@@ -104,12 +118,16 @@ class EquipmentView extends Component {
     return (
       <ScrollView style={{ padding: 16, display: this.props.show ? 'flex' : 'none' }}>
         <Card style={{ ...styles.borderRadius }}>
-          {this.Pit({ ...styles.borderTopRadius, ...styles.borderBottomDivider })}
-          {this.Activity(this.state.noActivity ? styles.borderBottomRadius : styles.borderBottomDivider)}
-          {this.Excavator({ ...styles.borderBottomDivider, ...this.hideWhenNoActivity() })}
-          {this.ExcavatorCondition({ ...styles.borderBottomRadius, ...this.hideWhenNoActivity() })}
+          {this.Pit({ ...styles.borderTopRadius, ...styles.borderBottomDivider, height: 44 })}
+          {this.Activity({
+            ...(this.state.noActivity ? styles.borderBottomRadius : styles.borderBottomDivider),
+            height: 44,
+          })}
+          {this.Excavator({ ...styles.borderBottomDivider, ...this.hideWhenNoActivity(), height: 44 })}
+          {this.ExcavatorCondition({ ...styles.borderBottomRadius, ...this.hideWhenNoActivity(), height: 44 })}
         </Card>
         {this.Photos({ marginTop: 16 })}
+        {this.PhotosModal()}
         {this.Remarks({ marginTop: 16 })}
       </ScrollView>
     )
@@ -129,28 +147,56 @@ class EquipmentView extends Component {
     )
   }
 
+  PhotosModal() {
+    return (
+      <Modal key="photosModal" visible={this.state.modalPhotosShow} transparent={true}>
+        <Button style={{ backgroundColor: ACCENT_COLOR }} onPress={() => this.setState({ modalPhotosShow: false })}>
+          <Text style={{ flex: 1, textAlign: 'right' }}>Back</Text>
+        </Button>
+        <ImageViewer
+          enablePreload={true}
+          imageUrls={this.state.photosBase64.map((photoBase64) => ({ url: photoBase64 }))}
+          saveToLocalByLongPress={false}
+          index={this.state.modalPhotosShowIndex}
+        />
+      </Modal>
+    )
+  }
+
   Photos(style) {
     return (
       <View style={style}>
         <Label style={styles.label}>Photos</Label>
         <View style={styles.photoItemContainer}>
           <TouchableHighlight
-            style={{
-              ...styles.borderRadius,
-              ...styles.photoItem,
-              ...styles.photoItemButton,
-            }}
+            style={{ ...styles.borderRadius, ...styles.photoItem, ...styles.photoItemButton }}
             underlayColor="#AFAFB9"
             onPress={this.handlePhotos}
           >
             <Icon type="MaterialIcons" name="add-a-photo" style={{ color: ACCENT_COLOR }} />
           </TouchableHighlight>
 
-          {this.state.photosBase64.map((photo) => (
-            <Image
-              source={{ uri: photo }}
-              style={{ ...styles.borderRadius, ...styles.photoItem, ...styles.photoItemImage }}
-            />
+          {this.state.photosBase64.map((photo, index) => (
+            <TouchableHighlight
+              style={{ ...styles.photoItem, ...styles.borderRadius }}
+              onPress={() => this.handlePhotosModal(index)}
+              onLongPress={() =>
+                Alert.alert('Delete Photo', 'Confirm Delete photo ?', [
+                  { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+                  {
+                    text: 'OK',
+                    onPress: () => {
+                      const { photosBase64 } = this.state
+                      photosBase64.splice(index, 1)
+                      this.setState({ photosBase64 })
+                    },
+                  },
+                ])
+              }
+              delayLongPress={500}
+            >
+              <Image source={{ uri: photo }} style={{ ...styles.borderRadius, ...styles.photoItemImage }} />
+            </TouchableHighlight>
           ))}
         </View>
       </View>
@@ -159,7 +205,7 @@ class EquipmentView extends Component {
 
   ExcavatorCondition(style) {
     return (
-      <CardItem style={style}>
+      <CardItem key="excavatorCondition" style={style}>
         <Label style={styles.labelInCard}>Is the excavator in good condition ?</Label>
         <Icon
           {...CLEAR_ICON}
@@ -177,36 +223,38 @@ class EquipmentView extends Component {
 
   Excavator(style) {
     return (
-      <CardItem style={style}>
+      <CardItem key="excavator" style={style}>
         <Label style={styles.labelInCard}>Excavator</Label>
-        <Picker
-          mode="dropdown"
-          style={styles.dropdownPicker}
-          selectedValue={this.state.excavatorId}
-          onValueChange={this.onExcavatorChange}
-        >
-          {this.props.excavators
-            .filter((excavator) => excavator.purpose === 'COAL_WINNING')
-            .map((excavator) => (
-              <Picker.Item key={excavator.id} label={excavator.name} value={excavator.id} />
-            ))}
-        </Picker>
+        <View style={styles.dropdownPickerContainer}>
+          <Picker
+            mode="dropdown"
+            style={styles.dropdownPicker}
+            selectedValue={this.state.excavatorId}
+            onValueChange={this.onExcavatorChange}
+          >
+            {this.props.excavators
+              .filter((excavator) => excavator.purpose === 'COAL_WINNING')
+              .map((excavator) => (
+                <Picker.Item key={excavator.id} label={excavator.name} value={excavator.id} />
+              ))}
+          </Picker>
+        </View>
       </CardItem>
     )
   }
 
   Pit(style) {
     return (
-      <CardItem style={style}>
+      <CardItem key="pit" style={style}>
         <Label style={styles.labelInCard}>Pit</Label>
-        <Text style={{ fontSize: 14 }}>{this.props.selectedPit.name}</Text>
+        <Text style={{ fontSize: 14, textAlignVertical: 'center' }}>{this.props.selectedPit.name}</Text>
       </CardItem>
     )
   }
 
   Activity(style) {
     return (
-      <CardItem style={style}>
+      <CardItem key="activity" style={style}>
         <Label style={styles.labelInCard}>Any Coal Winning Activity?</Label>
         <Icon
           {...CLEAR_ICON}
