@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
-import { Card, CardItem, Text, Picker, Label, Button, Icon, Toast, Input, Item } from 'native-base'
+import { View, Modal, TouchableOpacity } from 'react-native'
+import { Card, CardItem, Text, Picker, Label, Button, Icon, Toast, Input, Item, DatePicker } from 'native-base'
 import { ACCENT_COLOR } from '../../fixtures/styles'
 import styles from './styles'
+import TimesheetCreateComponent from './timesheetCreateComponent'
+import TimesheetComponent from './timesheetComponent'
+import UUIDGenerator from 'react-native-uuid-generator'
 
 class LocationDetailComponent extends Component {
   constructor(props) {
     super(props)
 
-    const { id, seam, sectionPrefix, sectionFrom, sectionTo, elevation, others } = props
+    const { id, seam, sectionPrefix, sectionFrom, sectionTo, elevation, others, timesheets } = props
 
     this.state = {
       id,
@@ -18,12 +21,14 @@ class LocationDetailComponent extends Component {
       sectionTo,
       elevation,
       others,
+      timesheets,
+      modalTimesheetShow: false,
     }
 
     this.Seam = this.Seam.bind(this)
     this.Section = this.Section.bind(this)
-    this.addTimesheet = this.addTimesheet.bind(this)
-    this.viewOthers = this.viewOthers.bind(this)
+    this.handleTimesheetModal = this.handleTimesheetModal.bind(this)
+    this.handleViewOthers = this.handleViewOthers.bind(this)
     this.handleSectionToChange = this.handleSectionToChange.bind(this)
     this.handleSectionFromChange = this.handleSectionFromChange.bind(this)
   }
@@ -32,11 +37,11 @@ class LocationDetailComponent extends Component {
     return Array.apply(null, Array(end - start + 1)).map((val, idx) => (val ? val + idx : start + idx))
   }
 
-  addTimesheet() {
-    Toast.show({ text: 'In Development' })
+  handleTimesheetModal() {
+    this.setState({ modalTimesheetShow: !this.state.modalTimesheetShow })
   }
 
-  viewOthers() {
+  handleViewOthers() {
     Toast.show({ text: 'In Development' })
   }
 
@@ -50,6 +55,10 @@ class LocationDetailComponent extends Component {
     else this.setState({ sectionTo: value })
   }
 
+  handleShowTime(type) {
+    this.setState({ modalTimesheetFromShow: true })
+  }
+
   render() {
     return (
       <Card style={{ ...styles.borderRadius, marginBottom: 16 }}>
@@ -57,8 +66,37 @@ class LocationDetailComponent extends Component {
         {this.Seam({ ...styles.borderBottomDivider, height: 44 })}
         {this.Section({ ...styles.borderBottomDivider, height: 44 })}
         {this.Elevation({ ...styles.borderBottomDivider, height: 44 })}
-        {this.Timesheet({ ...styles.borderBottomDivider, height: 44 })}
+        {this.Timesheet({ height: 44 })}
+        <CardItem
+          key="TimesheetItems"
+          style={{ flexDirection: 'column', display: this.state.timesheets.length ? 'flex' : 'none' }}
+        >
+          {this.state.timesheets.map((timesheet, index) => (
+            <TimesheetComponent
+              key={timesheet.id}
+              style={this.state.timesheets.length === index + 1 ? { paddingTop: 12 } : null}
+              timesheet={timesheet}
+              onRemove={() => {
+                const { timesheets } = this.state
+                timesheets.splice(index, 1)
+                this.setState({ timesheets })
+              }}
+            />
+          ))}
+        </CardItem>
         {this.cardFooter()}
+        <Modal transparent={true} visible={this.state.modalTimesheetShow}>
+          <TimesheetCreateComponent
+            onCancel={this.handleTimesheetModal}
+            onSubmit={async (timesheet) => {
+              const { timesheets } = this.state
+              const id = await UUIDGenerator.getRandomUUID()
+              timesheet.id = id
+              timesheets.push(timesheet)
+              this.setState({ timesheets, modalTimesheetShow: false })
+            }}
+          />
+        </Modal>
       </Card>
     )
   }
@@ -95,10 +133,10 @@ class LocationDetailComponent extends Component {
       <CardItem key="section" style={style}>
         <Label style={styles.labelInCard}>Section</Label>
         <Text style={{ fontSize: 14 }}>{`${this.state.sectionPrefix}`}</Text>
-        <View style={styles.dropdownPickerContainer}>
+        <View style={styles.pickerContainer}>
           <Picker
             mode="dialog"
-            style={styles.dropdownPicker}
+            style={styles.picker}
             selectedValue={this.state.sectionFrom}
             onValueChange={this.handleSectionFromChange}
           >
@@ -109,10 +147,11 @@ class LocationDetailComponent extends Component {
             )}
           </Picker>
         </View>
-        <View style={styles.dropdownPickerContainer}>
+        <Text style={{ fontSize: 14, marginHorizontal: 8 }}>to</Text>
+        <View style={styles.pickerContainer}>
           <Picker
             mode="dialog"
-            style={styles.dropdownPicker}
+            style={styles.picker}
             selectedValue={this.state.sectionTo}
             onValueChange={this.handleSectionToChange}
           >
@@ -131,10 +170,10 @@ class LocationDetailComponent extends Component {
     return (
       <CardItem key="seam" style={style}>
         <Label style={styles.labelInCard}>Seam</Label>
-        <View style={styles.dropdownPickerContainer}>
+        <View style={styles.pickerContainer}>
           <Picker
             mode="dropdown"
-            style={styles.dropdownPicker}
+            style={styles.picker}
             selectedValue={this.state.seam}
             onValueChange={(seam) => this.setState({ seam })}
           >
@@ -149,12 +188,15 @@ class LocationDetailComponent extends Component {
 
   cardFooter() {
     return (
-      <CardItem key="footer" style={{ justifyContent: 'flex-end', ...styles.borderBottomRadius }}>
-        <Button bordered style={{ ...styles.locationDetailButton, marginRight: 8 }} onPress={this.addTimesheet}>
+      <CardItem
+        key="footer"
+        style={{ justifyContent: 'flex-end', ...styles.borderTopDivider, ...styles.borderBottomRadius }}
+      >
+        <Button bordered style={{ ...styles.locationDetailButton, marginRight: 8 }} onPress={this.handleTimesheetModal}>
           <Icon style={styles.locationDetailButtonIcon} type="MaterialIcons" name="add-alarm" />
           <Text style={styles.locationDetailButtonText}>Add Timesheet</Text>
         </Button>
-        <Button bordered style={styles.locationDetailButton} onPress={this.viewOthers}>
+        <Button bordered style={styles.locationDetailButton} onPress={this.handleViewOthers}>
           <Icon style={styles.locationDetailButtonIcon} type="MaterialIcons" name="assignment-turned-in" />
           <Text style={styles.locationDetailButtonText}>View Others</Text>
         </Button>

@@ -14,6 +14,10 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: borderRadius,
     borderBottomLeftRadius: borderRadius,
   },
+  borderTopDivider: {
+    borderTopWidth: 1,
+    borderTopColor: grayColor,
+  },
   borderBottomDivider: {
     borderBottomWidth: 1,
     borderBottomColor: grayColor,
@@ -70,10 +74,10 @@ const styles = StyleSheet.create({
   checkIcon: {
     marginLeft: 12,
   },
-  dropdownPickerContainer: {
+  pickerContainer: {
     width: 125,
   },
-  dropdownPicker: {
+  picker: {
     height: 24,
     marginTop: 0,
     marginRight: -22,
@@ -112,9 +116,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
   },
-  remarksArea: {
+  textArea: {
+    fontSize: 14,
     backgroundColor: 'white',
     borderColor: grayColor,
+    margin: 0,
+    paddingLeft: 6,
+    paddingRight: 6,
+    paddingTop: 6,
+    paddingBottom: 6,
+    marginTop: 0,
   },
 })
 

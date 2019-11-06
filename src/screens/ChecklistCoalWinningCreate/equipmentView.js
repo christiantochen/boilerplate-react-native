@@ -140,7 +140,7 @@ class EquipmentView extends Component {
         <Textarea
           rowSpan={5}
           bordered
-          style={{ ...styles.remarksArea, ...styles.borderRadius }}
+          style={{ ...styles.textArea, ...styles.borderRadius }}
           value={this.state.remarks}
         />
       </View>
@@ -225,10 +225,10 @@ class EquipmentView extends Component {
     return (
       <CardItem key="excavator" style={style}>
         <Label style={styles.labelInCard}>Excavator</Label>
-        <View style={styles.dropdownPickerContainer}>
+        <View style={styles.pickerContainer}>
           <Picker
             mode="dropdown"
-            style={styles.dropdownPicker}
+            style={styles.picker}
             selectedValue={this.state.excavatorId}
             onValueChange={this.onExcavatorChange}
           >

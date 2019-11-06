@@ -14,6 +14,26 @@ class LocationView extends Component {
     this.state = {
       locations,
     }
+
+    this.handleAddDetail = this.handleAddDetail.bind(this)
+  }
+
+  handleAddDetail() {
+    const { locations } = this.state
+    const { operationalPlan } = this.props
+
+    locations.push({
+      id: locations.length + 1,
+      seam: operationalPlan.seams[0],
+      sectionPrefix: operationalPlan.sectionPrefix,
+      sectionFrom: operationalPlan.sectionFrom,
+      sectionTo: operationalPlan.sectionTo,
+      elevation: 0,
+      others: [],
+      timesheets: [],
+    })
+
+    this.setState({ locations })
   }
 
   render() {
@@ -27,12 +47,11 @@ class LocationView extends Component {
           name="add-circle"
           style={{
             flex: 1,
-            marginTop: 16,
-            marginBottom: 16,
             textAlign: 'center',
             fontSize: 48,
             color: ACCENT_COLOR,
           }}
+          onPress={this.handleAddDetail}
         />
       </ScrollView>
     )
