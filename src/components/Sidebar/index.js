@@ -1,26 +1,24 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Avatar, Icon, Text } from 'native-base'
 import { View, TouchableOpacity, Image } from 'react-native'
 import { withNavigation } from 'react-navigation'
 import styles from './styles'
 import { TEXT_COLOR_ACCENT, TEXT_COLOR_WHITE } from '../../fixtures/styles'
+import { SessionAction } from '../../actions'
 
 class Sidebar extends Component {
   constructor(props) {
     super(props)
 
-    const { params } = this.props.navigation.state
-    const { session } = params
+    const { displayName, displayPictureUrl, selectedPit, selectedContractor } = props.session
 
     this.state = {
-      ...session,
+      displayName,
+      displayPictureUrl,
+      selectedPit,
+      selectedContractor,
     }
-
-    this.handleLogoutButton = this.handleLogoutButton.bind(this)
-  }
-
-  handleLogoutButton() {
-    this.props.navigation.navigate({ routeName: 'Login', params: { fromLogout: true } })
   }
 
   render() {
@@ -45,14 +43,10 @@ class Sidebar extends Component {
           </View>
         </TouchableOpacity>
         <View style={{ flex: 1 }} />
-        <TouchableOpacity onPress={this.handleLogoutButton}>
+        <TouchableOpacity onPress={this.props.sessionClear}>
           <View style={styles.logoutButton}>
             <Text style={styles.logoutText}>Logout</Text>
-            <Icon
-              style={{ color: TEXT_COLOR_WHITE }}
-              type="MaterialIcons"
-              name="exit-to-app"
-            ></Icon>
+            <Icon style={{ color: TEXT_COLOR_WHITE }} type="MaterialIcons" name="exit-to-app"></Icon>
           </View>
         </TouchableOpacity>
         <Text style={styles.version}>v1.0.4</Text>
@@ -61,4 +55,19 @@ class Sidebar extends Component {
   }
 }
 
-export default withNavigation(Sidebar)
+function mapStateToProps(state) {
+  return {
+    session: state.sessionReducer,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    sessionClear: () => dispatch(SessionAction.sessionClearRequest()),
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withNavigation(Sidebar))

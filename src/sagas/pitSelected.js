@@ -22,7 +22,7 @@ export default function* pitSelected(action) {
 
     if (response.ok) {
       yield put(OperationalPlanAction.getPitOperationalPlanSucceed(selectedPit.id, response.data))
-      yield call(NavigationService.navigate, 'App', { session })
+      yield call(NavigationService.navigate, 'App')
     } else {
       yield put(OperationalPlanAction.getPitOperationalPlanFailed(response))
     }

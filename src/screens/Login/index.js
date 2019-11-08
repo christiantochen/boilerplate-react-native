@@ -6,12 +6,6 @@ import View from './view'
 class LoginContainer extends Component {
   constructor(props) {
     super(props)
-
-    const { params } = props.navigation.state
-
-    if (params && params.fromLogout) {
-      props.sessionClear()
-    }
   }
 
   render() {
@@ -28,7 +22,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     onLogin: (username, password) => dispatch(LoginAction.loginRequest(username, password)),
-    sessionClear: () => dispatch(SessionAction.sessionClearRequest()),
   }
 }
 

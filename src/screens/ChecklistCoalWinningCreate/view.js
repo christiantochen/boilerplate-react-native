@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, Toast, Button } from 'native-base'
+import { Text, Toast, Button, Icon } from 'native-base'
 import { View } from 'react-native'
 import { ACCENT_COLOR } from '../../fixtures/styles'
 import { TouchableHighlight } from 'react-native-gesture-handler'
@@ -68,6 +68,46 @@ class ChecklistCoalWinningCreateView extends Component {
 
     return (
       <Button style={{ flex: 1, borderRadius: 0, backgroundColor: ACCENT_COLOR, display }} onPress={onPress}>
+        <Text style={{ flex: 1, ...additionalStyle }}>{title}</Text>
+      </Button>
+    )
+  }
+
+  footerButtonSpecialRight(title, showOnSteps, onPress, additionalStyle = {}) {
+    const display = showOnSteps.includes(this.state.step) ? 'flex' : 'none'
+
+    return (
+      <Button
+        style={{
+          flex: 1,
+          borderRadius: 0,
+          backgroundColor: ACCENT_COLOR,
+          display,
+          borderTopLeftRadius: 64,
+          elevation: 0,
+        }}
+        onPress={onPress}
+      >
+        <Text style={{ flex: 1, ...additionalStyle }}>{title}</Text>
+      </Button>
+    )
+  }
+
+  footerButtonSpecialLeft(title, showOnSteps, onPress, additionalStyle = {}) {
+    const display = showOnSteps.includes(this.state.step) ? 'flex' : 'none'
+
+    return (
+      <Button
+        style={{
+          flex: 1,
+          borderRadius: 0,
+          backgroundColor: ACCENT_COLOR,
+          display,
+          borderTopEndRadius: 64,
+          elevation: 0,
+        }}
+        onPress={onPress}
+      >
         <Text style={{ flex: 1, ...additionalStyle }}>{title}</Text>
       </Button>
     )
