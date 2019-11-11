@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { ScrollView } from 'react-native'
-import { Icon } from 'native-base'
+import { ScrollView, View } from 'react-native'
+import { Icon, Button } from 'native-base'
 import { ACCENT_COLOR } from '../../fixtures/styles'
 import styles from './styles'
 import LocationDetailComponent from './locationDetailComponent'
@@ -38,22 +38,38 @@ class LocationView extends Component {
 
   render() {
     return (
-      <ScrollView style={{ padding: 16, display: this.props.show ? 'flex' : 'none' }}>
-        {this.state.locations.map((location) => (
-          <LocationDetailComponent key={location.id} {...location} operationalPlan={this.props.operationalPlan} />
-        ))}
-        <Icon
-          type="MaterialIcons"
-          name="add-circle"
+      <View style={{ flex: 1, display: this.props.show ? 'flex' : 'none' }}>
+        <ScrollView style={{ paddingHorizontal: 16 }}>
+          <View style={{ height: 16 }} />
+          {this.state.locations.map((location) => (
+            <LocationDetailComponent key={location.id} {...location} operationalPlan={this.props.operationalPlan} />
+          ))}
+          <View style={{ height: 16 }} />
+        </ScrollView>
+        <View
           style={{
-            flex: 1,
-            textAlign: 'center',
-            fontSize: 48,
-            color: ACCENT_COLOR,
+            position: 'absolute',
+            alignItems: 'center',
+            left: 0,
+            right: 0,
+            bottom: -24,
           }}
-          onPress={this.handleAddDetail}
-        />
-      </ScrollView>
+        >
+          <Button
+            style={{
+              width: 48,
+              height: 48,
+              backgroundColor: ACCENT_COLOR,
+              borderRadius: 24,
+              elevation: 5,
+              justifyContent: 'center',
+            }}
+            onPress={this.handleAddDetail}
+          >
+            <Icon name="add" style={{ fontSize: 24 }} />
+          </Button>
+        </View>
+      </View>
     )
   }
 }

@@ -26,7 +26,7 @@ function mapStateToProps(state) {
   return {
     selectedPit,
     excavators: state.excavatorReducer[selectedPit.id] || [],
-    operationalPlan: state.operationalPlanReducer[selectedPit.id] || {},
+    operationalPlan: state.operationalPlanReducer[selectedPit.id],
   }
 }
 

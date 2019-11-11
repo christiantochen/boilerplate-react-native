@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { View, Modal, TouchableOpacity } from 'react-native'
-import { Card, CardItem, Text, Picker, Label, Button, Icon, Toast, Input, Item, DatePicker } from 'native-base'
-import { ACCENT_COLOR } from '../../fixtures/styles'
+import { Card, CardItem, Text, Picker, Label, Button, Icon, Toast, Input } from 'native-base'
 import styles from './styles'
 import TimesheetCreateComponent from './timesheetCreateComponent'
 import TimesheetComponent from './timesheetComponent'
 import UUIDGenerator from 'react-native-uuid-generator'
+
+function rangeBetween(start, end) {
+  return Array.apply(null, Array(end - start + 1)).map((val, idx) => (val ? val + idx : start + idx))
+}
 
 class LocationDetailComponent extends Component {
   constructor(props) {
@@ -33,10 +37,6 @@ class LocationDetailComponent extends Component {
     this.handleSectionFromChange = this.handleSectionFromChange.bind(this)
   }
 
-  rangeBetween(start, end) {
-    return Array.apply(null, Array(end - start + 1)).map((val, idx) => (val ? val + idx : start + idx))
-  }
-
   handleTimesheetModal() {
     this.setState({ modalTimesheetShow: !this.state.modalTimesheetShow })
   }
@@ -60,44 +60,58 @@ class LocationDetailComponent extends Component {
   }
 
   render() {
+    const cardContainerStyle = { ...styles.borderRadius, marginBottom: 16, ...this.props.styles }
+
     return (
-      <Card style={{ ...styles.borderRadius, marginBottom: 16 }}>
+      <Card style={cardContainerStyle}>
         {this.cardHeader('Location Details')}
         {this.Seam({ ...styles.borderBottomDivider, height: 44 })}
         {this.Section({ ...styles.borderBottomDivider, height: 44 })}
         {this.Elevation({ ...styles.borderBottomDivider, height: 44 })}
         {this.Timesheet({ height: 44 })}
-        <CardItem
-          key="TimesheetItems"
-          style={{ flexDirection: 'column', display: this.state.timesheets.length ? 'flex' : 'none' }}
-        >
-          {this.state.timesheets.map((timesheet, index) => (
-            <TimesheetComponent
-              key={timesheet.id}
-              style={this.state.timesheets.length === index + 1 ? { paddingTop: 12 } : null}
-              timesheet={timesheet}
-              onRemove={() => {
-                const { timesheets } = this.state
-                timesheets.splice(index, 1)
-                this.setState({ timesheets })
-              }}
-            />
-          ))}
-        </CardItem>
+        {this.TimesheetItems()}
         {this.cardFooter()}
-        <Modal transparent={true} visible={this.state.modalTimesheetShow}>
-          <TimesheetCreateComponent
-            onCancel={this.handleTimesheetModal}
-            onSubmit={async (timesheet) => {
+        {this.TimesheetModal()}
+      </Card>
+    )
+  }
+
+  TimesheetModal() {
+    return (
+      <Modal transparent={true} visible={this.state.modalTimesheetShow}>
+        <TimesheetCreateComponent
+          onCancel={this.handleTimesheetModal}
+          onSubmit={async (timesheet) => {
+            const { timesheets } = this.state
+            const id = await UUIDGenerator.getRandomUUID()
+            timesheet.id = id
+            timesheets.push(timesheet)
+            this.setState({ timesheets, modalTimesheetShow: false })
+          }}
+        />
+      </Modal>
+    )
+  }
+
+  TimesheetItems() {
+    const { timesheets } = this.state
+    const display = timesheets.length ? 'flex' : 'none'
+
+    return (
+      <CardItem key="TimesheetItems" style={{ flexDirection: 'column', display }}>
+        {this.state.timesheets.map((timesheet, index) => (
+          <TimesheetComponent
+            key={timesheet.id}
+            style={index !== 0 ? { paddingTop: 12 } : null}
+            timesheet={timesheet}
+            onRemove={() => {
               const { timesheets } = this.state
-              const id = await UUIDGenerator.getRandomUUID()
-              timesheet.id = id
-              timesheets.push(timesheet)
-              this.setState({ timesheets, modalTimesheetShow: false })
+              timesheets.splice(index, 1)
+              this.setState({ timesheets })
             }}
           />
-        </Modal>
-      </Card>
+        ))}
+      </CardItem>
     )
   }
 
@@ -105,7 +119,7 @@ class LocationDetailComponent extends Component {
     return (
       <CardItem key="timesheet" style={style}>
         <Label style={styles.labelInCard}>Timesheet(s)</Label>
-        <Text style={{ fontSize: 14 }}></Text>
+        <Text style={{ fontSize: 14 }}>{this.state.timesheets.length}</Text>
       </CardItem>
     )
   }
@@ -140,7 +154,7 @@ class LocationDetailComponent extends Component {
             selectedValue={this.state.sectionFrom}
             onValueChange={this.handleSectionFromChange}
           >
-            {this.rangeBetween(this.props.operationalPlan.sectionFrom, this.props.operationalPlan.sectionTo).map(
+            {rangeBetween(this.props.operationalPlan.sectionFrom, this.props.operationalPlan.sectionTo).map(
               (number) => (
                 <Picker.Item key={`SECTION_FROM_${number}`} label={number.toString()} value={number} />
               )
@@ -155,7 +169,7 @@ class LocationDetailComponent extends Component {
             selectedValue={this.state.sectionTo}
             onValueChange={this.handleSectionToChange}
           >
-            {this.rangeBetween(this.props.operationalPlan.sectionFrom, this.props.operationalPlan.sectionTo).map(
+            {rangeBetween(this.props.operationalPlan.sectionFrom, this.props.operationalPlan.sectionTo).map(
               (number) => (
                 <Picker.Item key={`SECTION_TO_${number}`} label={number.toString()} value={number} />
               )
@@ -211,6 +225,10 @@ class LocationDetailComponent extends Component {
       </CardItem>
     )
   }
+}
+
+LocationDetailComponent.propTypes = {
+  styles: PropTypes.object,
 }
 
 export default LocationDetailComponent
