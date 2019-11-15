@@ -22,24 +22,28 @@ class LocationView extends Component {
     const { locations } = this.state
     const { operationalPlan } = this.props
 
-    locations.push({
-      id: locations.length + 1,
-      seam: operationalPlan.seams[0],
-      sectionPrefix: operationalPlan.sectionPrefix,
-      sectionFrom: operationalPlan.sectionFrom,
-      sectionTo: operationalPlan.sectionTo,
-      elevation: 0,
-      others: [],
-      timesheets: [],
-    })
+    if (operationalPlan) {
+      const defaultSeam = operationalPlan.Seam && operationalPlan.Seam.length ? operationalPlan.seams[0] : undefined
 
-    this.setState({ locations })
+      locations.push({
+        id: locations.length + 1,
+        seam: defaultSeam,
+        sectionPrefix: operationalPlan.sectionPrefix,
+        sectionFrom: operationalPlan.sectionFrom,
+        sectionTo: operationalPlan.sectionTo,
+        elevation: 0,
+        others: [],
+        timesheets: [],
+      })
+
+      this.setState({ locations })
+    }
   }
 
   render() {
     return (
-      <View style={{ flex: 1, display: this.props.show ? 'flex' : 'none' }}>
-        <ScrollView style={{ paddingHorizontal: 16 }}>
+      <View key="locationView" style={{ flex: 1, display: this.props.show ? 'flex' : 'none' }}>
+        <ScrollView key="locationView_ScrollView" style={{ paddingHorizontal: 16 }}>
           <View style={{ height: 16 }} />
           {this.state.locations.map((location) => (
             <LocationDetailComponent key={location.id} {...location} operationalPlan={this.props.operationalPlan} />
@@ -47,6 +51,7 @@ class LocationView extends Component {
           <View style={{ height: 16 }} />
         </ScrollView>
         <View
+          key="locationView_add_button"
           style={{
             position: 'absolute',
             alignItems: 'center',

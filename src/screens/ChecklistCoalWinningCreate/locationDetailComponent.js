@@ -83,8 +83,7 @@ class LocationDetailComponent extends Component {
           onCancel={this.handleTimesheetModal}
           onSubmit={async (timesheet) => {
             const { timesheets } = this.state
-            const id = await UUIDGenerator.getRandomUUID()
-            timesheet.id = id
+            timesheet.id = await UUIDGenerator.getRandomUUID()
             timesheets.push(timesheet)
             this.setState({ timesheets, modalTimesheetShow: false })
           }}

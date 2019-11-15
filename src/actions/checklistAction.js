@@ -1,11 +1,17 @@
 /*
  * Reducer actions related with login
  */
-import { GET_CHECKLIST_REQUEST, GET_CHECKLIST_SUCCEED, GET_CHECKLIST_FAILED } from '../fixtures/actionTypes'
+import {
+  GET_CHECKLIST_REQUEST,
+  GET_CHECKLIST_SUCCEED,
+  GET_CHECKLIST_FAILED,
+  GET_CHECKLIST_FINISHED,
+  SUBMIT_CHECKLIST,
+  DRAFT_CHECKLIST,
+} from '../fixtures/actionTypes'
 
 export default {
   getChecklistRequest(opts = {}) {
-    console.log('getChecklistRequest GET_CHECKLIST_REQUEST')
     return {
       type: GET_CHECKLIST_REQUEST,
       opts,
@@ -19,9 +25,17 @@ export default {
       data,
     }
   },
+  getChecklistFinished() {
+    return { type: GET_CHECKLIST_FINISHED }
+  },
   getChecklistFailed() {
-    return {
-      type: GET_CHECKLIST_FAILED,
-    }
+    return { type: GET_CHECKLIST_FAILED }
+  },
+  //
+  draftChecklist(checklistType, data) {
+    return { type: DRAFT_CHECKLIST, checklistType, data }
+  },
+  submitChecklist(checklistType, checklist) {
+    return { type: SUBMIT_CHECKLIST }
   },
 }

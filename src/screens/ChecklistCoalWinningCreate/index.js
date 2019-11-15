@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ChecklistCoalWinningCreateView from './view'
 import DrawerMenu from '../../components/DrawerMenu'
-import { SessionAction } from '../../actions'
+import { ChecklistAction } from '../../actions'
 
 class ChecklistCoalWinningCreateContainer extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -14,8 +14,6 @@ class ChecklistCoalWinningCreateContainer extends Component {
     super(props)
   }
 
-  componentDidMount() {}
-
   render() {
     return <ChecklistCoalWinningCreateView {...this.props} />
   }
@@ -23,15 +21,20 @@ class ChecklistCoalWinningCreateContainer extends Component {
 
 function mapStateToProps(state) {
   const selectedPit = state.sessionReducer.selectedPit
+
   return {
     selectedPit,
-    excavators: state.excavatorReducer[selectedPit.id] || [],
+    excavators: (state.excavatorReducer[selectedPit.id] || []).filter(
+      (excavator) => excavator.purpose === 'COAL_WINNING'
+    ),
     operationalPlan: state.operationalPlanReducer[selectedPit.id],
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return {}
+  return {
+    saveToDraft: (coalWinning) => dispatch(ChecklistAction.draftChecklist('COAL_WINNING', coalWinning)),
+  }
 }
 
 export default connect(

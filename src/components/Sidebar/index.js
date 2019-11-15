@@ -6,6 +6,7 @@ import { withNavigation } from 'react-navigation'
 import styles from './styles'
 import { TEXT_COLOR_ACCENT, TEXT_COLOR_WHITE } from '../../fixtures/styles'
 import { SessionAction } from '../../actions'
+import NavigationService from '../../navigation/NavigationService'
 
 class Sidebar extends Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class Sidebar extends Component {
           <Text style={styles.profileName}>{this.state.displayName}</Text>
           <Text style={styles.profileSub}>Supervisor</Text>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => NavigationService.navigate('PitSelection')}>
           <View style={styles.selectedPitRow}>
             <View style={styles.selectedPitContent}>
               <Text style={styles.pitName}>{this.state.selectedPit.name}</Text>

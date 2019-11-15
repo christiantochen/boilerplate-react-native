@@ -39,14 +39,7 @@ function mapDispatchToProps(dispatch) {
     fetchChecklist: () =>
       dispatch(
         ChecklistAction.getChecklistRequest({
-          types: [
-            'COAL_WINNING',
-            'OB_REMOVAL',
-            'DUMPING',
-            'BLASTING',
-            'SUPPORT_EQUIPMENT',
-            'RAINFALL',
-          ],
+          types: ['COAL_WINNING', 'OB_REMOVAL', 'DUMPING', 'BLASTING', 'SUPPORT_EQUIPMENT', 'RAINFALL'],
         })
       ),
   }

@@ -6,24 +6,22 @@ const getChecklist = (state) => state.checklistReducer
 const getSession = (state) => state.sessionReducer
 
 // Our worker Saga that logins the user
-export default function* getContractorRequest(action) {
+export default function* getChecklistRequest(action) {
   const checklistInfo = yield select(getChecklist)
   const session = yield select(getSession)
   const { id } = session.selectedPit
+  const { lastSyncDate } = checklistInfo[id] || { lastSyncDate: undefined }
   const { types } = action.opts
 
-  for (const type of types) {
-    console.log('getContractorRequest for')
-    const response = yield call(
-      getAllChecklist,
-      { type, lastSyncDate: checklistInfo.lastSyncDate, pitId: id },
-      session.token
-    )
+  for (const checklistType of types) {
+    const response = yield call(getAllChecklist, { type: checklistType, lastSyncDate, pitId: id }, session.token)
 
     if (response.ok) {
-      yield put(ChecklistAction.getChecklistSucceed(id, type, response.data))
+      yield put(ChecklistAction.getChecklistSucceed(id, checklistType, response.data))
     } else {
       yield put(ChecklistAction.getChecklistFailed(response))
     }
   }
+
+  yield put(ChecklistAction.getChecklistFinished())
 }

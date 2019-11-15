@@ -1,38 +1,49 @@
 import React, { Component } from 'react'
-import { Text, Toast, Button, Icon } from 'native-base'
+import { Text, Button } from 'native-base'
 import { View } from 'react-native'
 import { ACCENT_COLOR } from '../../fixtures/styles'
-import { TouchableHighlight } from 'react-native-gesture-handler'
 import EquipmentView from './equipmentView'
 import SupportView from './supportView'
 import LocationView from './locationView'
 import ChecklistStep from '../../components/ChecklistStep'
-import styles from './styles'
+import NavigationService from '../../navigation/NavigationService'
+import UUIDGenerator from 'react-native-uuid-generator'
 
 class ChecklistCoalWinningCreateView extends Component {
   constructor(props) {
     super(props)
 
+    const { checklist } = props.navigation.state.params
+    const { excavators } = props
+
+    const defaultExcavator = excavators && excavators.length ? excavators[0].id : undefined
+
+    const coalWinning = checklist || {
+      pitId: props.selectedPit.id,
+      excavatorId: defaultExcavator,
+      isGood: false,
+      noActivity: false,
+      remarks: undefined,
+      contractorPICName: undefined,
+      signatureBase64: undefined,
+      dozerCount: 0,
+      dozerRemark: undefined,
+      dumpTruckActual: 0,
+      dumpTruckPlan: 0,
+      cleaningUnitActual: 0,
+      cleaningUnitPlan: 0,
+      locations: [],
+      photosBase64: [],
+    }
+
+    console.log(coalWinning)
+
     this.state = {
       step: 1,
-      coalWinning: {
-        pitId: props.selectedPit.id,
-        excavatorId: undefined,
-        isGood: false,
-        noActivity: false,
-        remarks: undefined,
-        contractorPICName: undefined,
-        signatureBase64: undefined,
-        dozerCount: 0,
-        dozerRemark: undefined,
-        dumpTruckActual: 0,
-        dumpTruckPlan: 0,
-        cleaningUnitActual: 0,
-        cleaningUnitPlan: 0,
-        locations: [],
-        photosBase64: [],
-      },
+      coalWinning,
     }
+
+    this.onComplete = this.onComplete.bind(this)
   }
 
   footerButton(title, showOnSteps, onPress, additionalStyle = {}) {
@@ -53,8 +64,12 @@ class ChecklistCoalWinningCreateView extends Component {
     this.setState({ step: this.state.step === 1 ? 2 : 3 })
   }
 
-  onComplete() {
-    Toast.show({ text: 'In Development' })
+  async onComplete() {
+    const { coalWinning } = this.state
+    coalWinning.id = await UUIDGenerator.getRandomUUID()
+    coalWinning.title = this.props.excavators.filter((excavator) => excavator.id === coalWinning.excavatorId)[0].name
+    this.props.saveToDraft(coalWinning)
+    NavigationService.goBack()
   }
 
   render() {
@@ -70,12 +85,12 @@ class ChecklistCoalWinningCreateView extends Component {
           show={this.state.step === 1}
           excavators={this.props.excavators}
           selectedPit={this.props.selectedPit}
-          {...this.state.coalWinning}
+          coalWinning={this.state.coalWinning}
         />
         <SupportView
           show={this.state.step === 2}
           operationalPlan={this.props.operationalPlan}
-          {...this.state.coalWinning}
+          coalWinning={this.state.coalWinning}
         />
         <LocationView
           show={this.state.step === 3}

@@ -49,27 +49,20 @@ class EquipmentView extends Component {
   constructor(props) {
     super(props)
 
-    const { excavatorId, isGood, noActivity, remarks, photosBase64 } = props
+    const { coalWinning } = props
 
     this.state = {
-      excavatorId,
-      isGood,
-      noActivity,
-      remarks,
-      photosBase64,
+      coalWinning,
       modalPhotosShow: false,
       modalPhotosShowIndex: 0,
     }
 
-    this.onExcavatorChange = this.onExcavatorChange.bind(this)
+    this.handleExcavatorChange = this.handleExcavatorChange.bind(this)
     this.handleIsGood = this.handleIsGood.bind(this)
     this.handleNoActivity = this.handleNoActivity.bind(this)
     this.handlePhotos = this.handlePhotos.bind(this)
     this.handlePhotosModal = this.handlePhotosModal.bind(this)
-  }
-
-  hideWhenNoActivity() {
-    return { display: this.state.noActivity ? 'none' : 'flex' }
+    this.handleRemarks = this.handleRemarks.bind(this)
   }
 
   handlePhotosModal(index) {
@@ -78,53 +71,65 @@ class EquipmentView extends Component {
 
   handlePhotos() {
     var self = this
-    const { photosBase64 } = this.state
+    const { coalWinning } = this.state
 
     ActionSheet.show(ACTION_SHEET_OPTIONS, async function(index) {
-      const base64prefix = 'data:image/png;base64,'
-
       switch (index) {
         case CAMERA_INDEX:
           await ImagePicker.openCamera(CAMERA_OPTIONS)
-            .then((image) => photosBase64.push(`${base64prefix}${image.data}`))
+            .then((image) => coalWinning.photosBase64.push(image.data))
             .catch((err) => console.log(err))
           break
         case GALLERY_INDEX:
           await ImagePicker.openPicker(GALLERY_OPTIONS)
-            .then((images) => images.forEach((image) => photosBase64.push(`${base64prefix}${image.data}`)))
+            .then((images) => images.forEach((image) => coalWinning.photosBase64.push(image.data)))
             .catch((err) => console.log(err))
           break
         default:
           break
       }
 
-      self.setState({ photosBase64 })
+      self.setState({ coalWinning })
     })
   }
 
+  handleRemarks(remarks) {
+    const { coalWinning } = this.state
+    coalWinning.remarks = remarks
+    this.setState({ coalWinning })
+  }
+
   handleNoActivity(noActivity) {
-    this.setState({ noActivity })
+    const { coalWinning } = this.state
+    coalWinning.noActivity = noActivity
+    this.setState({ coalWinning })
   }
 
   handleIsGood(isGood) {
-    this.setState({ isGood })
+    const { coalWinning } = this.state
+    coalWinning.isGood = isGood
+    this.setState({ coalWinning })
   }
 
-  onExcavatorChange(excavatorId) {
-    this.setState({ excavatorId })
+  handleExcavatorChange(excavatorId) {
+    const { coalWinning } = this.state
+    coalWinning.excavatorId = excavatorId
+    this.setState({ coalWinning })
   }
 
   render() {
+    const { noActivity } = this.state.coalWinning
+
     return (
-      <ScrollView style={{ padding: 16, display: this.props.show ? 'flex' : 'none' }}>
-        <Card style={{ ...styles.borderRadius }}>
+      <ScrollView key="equipmentView" style={{ padding: 16, display: this.props.show ? 'flex' : 'none' }}>
+        <Card key="equipmentView_mainCard" style={{ ...styles.borderRadius }}>
           {this.Pit({ ...styles.borderTopRadius, ...styles.borderBottomDivider, height: 44 })}
           {this.Activity({
-            ...(this.state.noActivity ? styles.borderBottomRadius : styles.borderBottomDivider),
+            ...(noActivity ? styles.borderBottomRadius : styles.borderBottomDivider),
             height: 44,
           })}
-          {this.Excavator({ ...styles.borderBottomDivider, ...this.hideWhenNoActivity(), height: 44 })}
-          {this.ExcavatorCondition({ ...styles.borderBottomRadius, ...this.hideWhenNoActivity(), height: 44 })}
+          {this.Excavator({ ...styles.borderBottomDivider, display: noActivity ? 'none' : 'flex', height: 44 })}
+          {this.ExcavatorCondition({ ...styles.borderBottomRadius, display: noActivity ? 'none' : 'flex', height: 44 })}
         </Card>
         {this.Photos({ marginTop: 16 })}
         {this.PhotosModal()}
@@ -134,28 +139,33 @@ class EquipmentView extends Component {
   }
 
   Remarks(style) {
+    const { remarks } = this.state.coalWinning
+
     return (
-      <View style={style}>
+      <View key="equipmentView_Remarks" style={style}>
         <Label style={styles.label}>Remarks</Label>
         <Textarea
           rowSpan={5}
           bordered
           style={{ ...styles.textArea, ...styles.borderRadius }}
-          value={this.state.remarks}
+          value={remarks}
+          onChangeText={this.handleRemarks}
         />
       </View>
     )
   }
 
   PhotosModal() {
+    const { photosBase64 } = this.state.coalWinning
+
     return (
-      <Modal key="photosModal" visible={this.state.modalPhotosShow} transparent={true}>
+      <Modal key="equipmentView_PhotosModal" visible={this.state.modalPhotosShow} transparent={true}>
         <Button style={{ backgroundColor: ACCENT_COLOR }} onPress={() => this.setState({ modalPhotosShow: false })}>
           <Text style={{ flex: 1, textAlign: 'right' }}>Back</Text>
         </Button>
         <ImageViewer
           enablePreload={true}
-          imageUrls={this.state.photosBase64.map((photoBase64) => ({ url: photoBase64 }))}
+          imageUrls={photosBase64.map((photoBase64) => ({ url: `data:image/png;base64,${photoBase64}` }))}
           saveToLocalByLongPress={false}
           index={this.state.modalPhotosShowIndex}
         />
@@ -164,21 +174,25 @@ class EquipmentView extends Component {
   }
 
   Photos(style) {
+    const { photosBase64 } = this.state.coalWinning
+
     return (
-      <View style={style}>
+      <View key="equipmentView_Photos" style={style}>
         <Label style={styles.label}>Photos</Label>
         <View style={styles.photoItemContainer}>
           <TouchableHighlight
-            style={{ ...styles.borderRadius, ...styles.photoItem, ...styles.photoItemButton }}
+            key="equipmentView_add_a_photo"
+            style={{ ...styles.photoItem, ...styles.photoItemButton }}
             underlayColor="#AFAFB9"
             onPress={this.handlePhotos}
           >
             <Icon type="MaterialIcons" name="add-a-photo" style={{ color: ACCENT_COLOR }} />
           </TouchableHighlight>
 
-          {this.state.photosBase64.map((photo, index) => (
+          {photosBase64.map((photo, index) => (
             <TouchableHighlight
-              style={{ ...styles.photoItem, ...styles.borderRadius }}
+              key={index}
+              style={styles.photoItem}
               onPress={() => this.handlePhotosModal(index)}
               onLongPress={() =>
                 Alert.alert('Delete Photo', 'Confirm Delete photo ?', [
@@ -186,16 +200,16 @@ class EquipmentView extends Component {
                   {
                     text: 'OK',
                     onPress: () => {
-                      const { photosBase64 } = this.state
-                      photosBase64.splice(index, 1)
-                      this.setState({ photosBase64 })
+                      const { coalWinning } = this.state
+                      coalWinning.photosBase64.splice(index, 1)
+                      this.setState({ coalWinning })
                     },
                   },
                 ])
               }
               delayLongPress={500}
             >
-              <Image source={{ uri: photo }} style={{ ...styles.borderRadius, ...styles.photoItemImage }} />
+              <Image source={{ uri: `data:image/png;base64,${photo}` }} style={styles.photoItemImage} />
             </TouchableHighlight>
           ))}
         </View>
@@ -204,17 +218,19 @@ class EquipmentView extends Component {
   }
 
   ExcavatorCondition(style) {
+    const { isGood } = this.state.coalWinning
+
     return (
       <CardItem key="excavatorCondition" style={style}>
         <Label style={styles.labelInCard}>Is the excavator in good condition ?</Label>
         <Icon
           {...CLEAR_ICON}
-          style={{ ...styles.icon, color: this.state.isGood ? '#AFAFB9' : 'red' }}
+          style={{ ...styles.icon, color: isGood ? '#AFAFB9' : 'red' }}
           onPress={() => this.handleIsGood(false)}
         />
         <Icon
           {...CHECK_ICON}
-          style={{ ...styles.icon, ...styles.checkIcon, color: this.state.isGood ? 'green' : '#AFAFB9' }}
+          style={{ ...styles.icon, ...styles.checkIcon, color: isGood ? 'green' : '#AFAFB9' }}
           onPress={() => this.handleIsGood(true)}
         />
       </CardItem>
@@ -222,21 +238,21 @@ class EquipmentView extends Component {
   }
 
   Excavator(style) {
+    const { excavatorId } = this.state.coalWinning
+
     return (
-      <CardItem key="excavator" style={style}>
+      <CardItem key="equipmentView_Excavator" style={style}>
         <Label style={styles.labelInCard}>Excavator</Label>
         <View style={styles.pickerContainer}>
           <Picker
             mode="dropdown"
             style={styles.picker}
-            selectedValue={this.state.excavatorId}
-            onValueChange={this.onExcavatorChange}
+            selectedValue={excavatorId}
+            onValueChange={this.handleExcavatorChange}
           >
-            {this.props.excavators
-              .filter((excavator) => excavator.purpose === 'COAL_WINNING')
-              .map((excavator) => (
-                <Picker.Item key={excavator.id} label={excavator.name} value={excavator.id} />
-              ))}
+            {this.props.excavators.map((excavator) => (
+              <Picker.Item key={excavator.id} label={excavator.name} value={excavator.id} />
+            ))}
           </Picker>
         </View>
       </CardItem>
@@ -245,7 +261,7 @@ class EquipmentView extends Component {
 
   Pit(style) {
     return (
-      <CardItem key="pit" style={style}>
+      <CardItem key="equipmentView_Pit" style={style}>
         <Label style={styles.labelInCard}>Pit</Label>
         <Text style={{ fontSize: 14, textAlignVertical: 'center' }}>{this.props.selectedPit.name}</Text>
       </CardItem>
@@ -253,17 +269,19 @@ class EquipmentView extends Component {
   }
 
   Activity(style) {
+    const { noActivity } = this.state.coalWinning
+
     return (
-      <CardItem key="activity" style={style}>
+      <CardItem key="equipmentView_Activity" style={style}>
         <Label style={styles.labelInCard}>Any Coal Winning Activity?</Label>
         <Icon
           {...CLEAR_ICON}
-          style={{ ...styles.icon, color: this.state.noActivity ? 'red' : '#AFAFB9' }}
+          style={{ ...styles.icon, color: noActivity ? 'red' : '#AFAFB9' }}
           onPress={() => this.handleNoActivity(true)}
         />
         <Icon
           {...CHECK_ICON}
-          style={{ ...styles.icon, ...styles.checkIcon, color: this.state.noActivity ? '#AFAFB9' : 'green' }}
+          style={{ ...styles.icon, ...styles.checkIcon, color: noActivity ? '#AFAFB9' : 'green' }}
           onPress={() => this.handleNoActivity(false)}
         />
       </CardItem>

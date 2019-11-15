@@ -67,10 +67,12 @@ const styles = StyleSheet.create({
     borderColor: ACCENT_COLOR,
     borderWidth: 1,
     backgroundColor: 'white',
+    borderRadius,
   },
   photoItemImage: {
     width: 62,
     height: 46,
+    borderRadius,
   },
   photoItemButton: {
     paddingHorizontal: 16,
