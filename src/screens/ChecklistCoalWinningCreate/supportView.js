@@ -49,7 +49,6 @@ class SupportView extends Component {
 
   cardItem(title, actual, plan, last, onChangeText) {
     const lastStyle = last ? styles.borderBottomRadius : styles.borderBottomDivider
-
     return (
       <CardItem key={`supportView_cardItem_${title}`} style={{ ...lastStyle, padding: 16, height: 44 }}>
         <Label style={styles.labelInCard}>{title}</Label>
@@ -62,8 +61,8 @@ class SupportView extends Component {
           value={actual.toString()}
           onChangeText={onChangeText}
         />
-        <Text style={{ fontSize: 14, display: plan !== undefined ? 'flex' : 'none' }}>/</Text>
-        <Text style={{ fontSize: 14, display: plan !== undefined ? 'flex' : 'none' }}>{plan}</Text>
+        {plan !== undefined && <Text style={{ fontSize: 14 }}>/</Text>}
+        {plan !== undefined && <Text style={{ fontSize: 14 }}>{plan}</Text>}
       </CardItem>
     )
   }
@@ -72,7 +71,7 @@ class SupportView extends Component {
     const { dumpTruckPlan, dumpTruckActual, cleaningUnitActual, cleaningUnitPlan, dozerCount } = this.state.coalWinning
 
     return (
-      <View key="supportView" style={{ flex: 1, padding: 16, display: this.props.show ? 'flex' : 'none' }}>
+      <View key="supportView" style={{ flex: 1, padding: 16 }}>
         <Card style={{ ...styles.borderRadius }}>
           {this.cardHeader('Support Equipment')}
           {this.cardItem('Dump Truck', dumpTruckActual, dumpTruckPlan, undefined, this.handleDumpTruckActual)}

@@ -42,7 +42,7 @@ class LocationView extends Component {
 
   render() {
     return (
-      <View key="locationView" style={{ flex: 1, display: this.props.show ? 'flex' : 'none' }}>
+      <View key="locationView" style={{ flex: 1 }}>
         <ScrollView key="locationView_ScrollView" style={{ paddingHorizontal: 16 }}>
           <View style={{ height: 16 }} />
           {this.state.locations.map((location) => (

@@ -1,9 +1,9 @@
 /* App config for apis
  */
 const ApiConstants = {
-  // BASE_URL: 'http://172.22.201.166/',
   // BASE_URL: 'http://10.0.2.2:8000/',
-  BASE_URL: 'https://dspvapps-jkt-01.banpuindo.co.id/',
+  // BASE_URL: 'https://dspvapps-jkt-01.banpuindo.co.id/',
+  BASE_URL: 'https://moca-uat.banpuindo.co.id/',
   // BASE_URL: 'https://moca.banpuindo.co.id/',
   LOGIN: 'login',
   LOGOUT: 'logout',

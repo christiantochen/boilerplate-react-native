@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { ACCENT_COLOR } from '../../fixtures/styles'
 
 const borderRadius = 12
 
@@ -9,7 +10,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cardStyle: {
-    marginTop: 16,
+    marginBottom: 16,
     borderRadius,
     paddingBottom: 12,
   },
@@ -21,6 +22,17 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
     backgroundColor: '#D8D8D8',
+  },
+  cardHeaderButtonStyle: {
+    backgroundColor: 'white',
+  },
+  cardHeaderButtonIconStyle: {
+    fontSize: 24,
+    color: ACCENT_COLOR,
+    marginLeft: 3,
+    marginRight: 3,
+    marginTop: 2,
+    marginBottom: 2,
   },
   cardItemStyle: {
     flexDirection: 'row',

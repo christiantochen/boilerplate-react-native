@@ -1,19 +1,6 @@
 import React, { Component } from 'react'
-import { View, Modal, TouchableOpacity } from 'react-native'
-import {
-  Card,
-  CardItem,
-  Text,
-  Picker,
-  Label,
-  Button,
-  Icon,
-  Toast,
-  Input,
-  Item,
-  DatePicker,
-  Textarea,
-} from 'native-base'
+import { View } from 'react-native'
+import { Text, Icon, Textarea } from 'native-base'
 import styles from './styles'
 
 class TimesheetComponent extends Component {

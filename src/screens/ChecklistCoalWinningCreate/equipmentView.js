@@ -26,13 +26,11 @@ const ACTION_SHEET_OPTIONS = {
 const CAMERA_OPTIONS = {
   width: 300,
   height: 400,
-  includeBase64: true,
   cropping: true,
 }
 
 const GALLERY_OPTIONS = {
   multiple: true,
-  includeBase64: true,
 }
 
 const CLEAR_ICON = {
@@ -77,12 +75,12 @@ class EquipmentView extends Component {
       switch (index) {
         case CAMERA_INDEX:
           await ImagePicker.openCamera(CAMERA_OPTIONS)
-            .then((image) => coalWinning.photosBase64.push(image.data))
+            .then((image) => coalWinning.photosBase64.push(image.path))
             .catch((err) => console.log(err))
           break
         case GALLERY_INDEX:
           await ImagePicker.openPicker(GALLERY_OPTIONS)
-            .then((images) => images.forEach((image) => coalWinning.photosBase64.push(image.data)))
+            .then((images) => images.forEach((image) => coalWinning.photosBase64.push(image.path)))
             .catch((err) => console.log(err))
           break
         default:
@@ -121,15 +119,15 @@ class EquipmentView extends Component {
     const { noActivity } = this.state.coalWinning
 
     return (
-      <ScrollView key="equipmentView" style={{ padding: 16, display: this.props.show ? 'flex' : 'none' }}>
+      <ScrollView key="equipmentView" style={{ padding: 16 }}>
         <Card key="equipmentView_mainCard" style={{ ...styles.borderRadius }}>
           {this.Pit({ ...styles.borderTopRadius, ...styles.borderBottomDivider, height: 44 })}
           {this.Activity({
             ...(noActivity ? styles.borderBottomRadius : styles.borderBottomDivider),
             height: 44,
           })}
-          {this.Excavator({ ...styles.borderBottomDivider, display: noActivity ? 'none' : 'flex', height: 44 })}
-          {this.ExcavatorCondition({ ...styles.borderBottomRadius, display: noActivity ? 'none' : 'flex', height: 44 })}
+          {!noActivity && this.Excavator({ ...styles.borderBottomDivider, height: 44 })}
+          {!noActivity && this.ExcavatorCondition({ ...styles.borderBottomRadius, height: 44 })}
         </Card>
         {this.Photos({ marginTop: 16 })}
         {this.PhotosModal()}
@@ -165,7 +163,7 @@ class EquipmentView extends Component {
         </Button>
         <ImageViewer
           enablePreload={true}
-          imageUrls={photosBase64.map((photoBase64) => ({ url: `data:image/png;base64,${photoBase64}` }))}
+          imageUrls={photosBase64.map((photoBase64) => ({ url: photoBase64 }))}
           saveToLocalByLongPress={false}
           index={this.state.modalPhotosShowIndex}
         />
@@ -189,7 +187,7 @@ class EquipmentView extends Component {
             <Icon type="MaterialIcons" name="add-a-photo" style={{ color: ACCENT_COLOR }} />
           </TouchableHighlight>
 
-          {photosBase64.map((photo, index) => (
+          {photosBase64.map((photoBase64, index) => (
             <TouchableHighlight
               key={index}
               style={styles.photoItem}
@@ -209,7 +207,7 @@ class EquipmentView extends Component {
               }
               delayLongPress={500}
             >
-              <Image source={{ uri: `data:image/png;base64,${photo}` }} style={styles.photoItemImage} />
+              <Image source={{ uri: photoBase64 }} style={styles.photoItemImage} />
             </TouchableHighlight>
           ))}
         </View>
@@ -250,9 +248,9 @@ class EquipmentView extends Component {
             selectedValue={excavatorId}
             onValueChange={this.handleExcavatorChange}
           >
-            {this.props.excavators.map((excavator) => (
-              <Picker.Item key={excavator.id} label={excavator.name} value={excavator.id} />
-            ))}
+            {this.props.excavators.map((excavator) => {
+              return <Picker.Item key={excavator.id} label={excavator.name} value={excavator.id} />
+            })}
           </Picker>
         </View>
       </CardItem>

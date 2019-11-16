@@ -1,25 +1,13 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { View, Modal, TouchableOpacity } from 'react-native'
-import {
-  Card,
-  CardItem,
-  Text,
-  Picker,
-  Label,
-  Button,
-  Icon,
-  Toast,
-  Input,
-  Item,
-  DatePicker,
-  Textarea,
-} from 'native-base'
+import { Card, CardItem, Text, Label, Button, Icon, Textarea } from 'native-base'
 import styles from './styles'
 import RNDateTimePicker from '@react-native-community/datetimepicker'
 import moment from 'moment'
 import { ACCENT_COLOR } from '../../fixtures/styles'
 
-class TimesheetCreateComponent extends Component {
+class TimesheetPicker extends Component {
   constructor(props) {
     super(props)
 
@@ -103,7 +91,7 @@ class TimesheetCreateComponent extends Component {
   renderHeader() {
     return (
       <CardItem key="modalHeader" style={{ ...styles.borderTopRadius, width: 400, backgroundColor: '#D8D8D8' }}>
-        <Text style={{ flex: 1 }}>New Timesheet</Text>
+        <Text style={{ flex: 1 }}>{this.props.title || 'New Timesheet'}</Text>
         <Icon name="close" style={{ ...styles.icon, textAlign: 'right' }} onPress={this.props.onCancel} />
       </CardItem>
     )
@@ -127,37 +115,46 @@ class TimesheetCreateComponent extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
-        <Card style={{ ...styles.borderRadius, elevation: 100 }}>
-          {this.renderHeader()}
-          {this.From()}
-          {this.To()}
-          {this.Remarks()}
-          {this.renderFooter()}
-        </Card>
-        {this.state.timePickerShow && (
-          <RNDateTimePicker
-            is24Hour={true}
-            mode="time"
-            value={this.state.timePickerValue}
-            onChange={(event, date) => {
-              let params = { timePickerShow: false }
+      <Modal transparent={this.props.transparent} visible={this.props.visible}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+          <Card style={{ ...styles.borderRadius, elevation: 100 }}>
+            {this.renderHeader()}
+            {this.From()}
+            {this.To()}
+            {this.Remarks()}
+            {this.renderFooter()}
+          </Card>
+          {this.state.timePickerShow && (
+            <RNDateTimePicker
+              is24Hour={true}
+              mode="time"
+              value={this.state.timePickerValue}
+              onChange={(event, date) => {
+                let params = { timePickerShow: false }
 
-              if (date) {
-                if (this.state.timePickerType === 'from') {
-                  params.timeFrom = moment(date).format('HH:mm')
-                } else if (this.state.timePickerType === 'to') {
-                  params.timeTo = moment(date).format('HH:mm')
+                if (date) {
+                  if (this.state.timePickerType === 'from') {
+                    params.timeFrom = moment(date).format('HH:mm')
+                  } else if (this.state.timePickerType === 'to') {
+                    params.timeTo = moment(date).format('HH:mm')
+                  }
                 }
-              }
 
-              this.setState(params)
-            }}
-          />
-        )}
-      </View>
+                this.setState(params)
+              }}
+            />
+          )}
+        </View>
+      </Modal>
     )
   }
 }
 
-export default TimesheetCreateComponent
+TimesheetPicker.propTypes = {
+  title: PropTypes.string,
+  transparent: PropTypes.bool,
+  onCancel: PropTypes.func,
+  onSubmit: PropTypes.func,
+}
+
+export default TimesheetPicker

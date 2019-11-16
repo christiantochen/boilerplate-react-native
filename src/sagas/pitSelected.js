@@ -17,14 +17,14 @@ export default function* pitSelected(action) {
       getOperationalPlanPerPit,
       selectedPit.id,
       { lastSyncDate: operationalPlan.lastSyncDate },
-      session.token
+      token
     )
 
     if (response.ok) {
       yield put(OperationalPlanAction.getPitOperationalPlanSucceed(selectedPit.id, response.data))
-      yield call(NavigationService.navigate, 'App')
     } else {
       yield put(OperationalPlanAction.getPitOperationalPlanFailed(response))
     }
+    yield call(NavigationService.navigate, 'App')
   }
 }

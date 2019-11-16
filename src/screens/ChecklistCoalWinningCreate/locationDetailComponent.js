@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View, Modal, TouchableOpacity } from 'react-native'
+import { View } from 'react-native'
 import { Card, CardItem, Text, Picker, Label, Button, Icon, Toast, Input } from 'native-base'
 import styles from './styles'
-import TimesheetCreateComponent from './timesheetCreateComponent'
+import TimesheetPicker from '../../components/TimesheetPicker'
 import TimesheetComponent from './timesheetComponent'
 import UUIDGenerator from 'react-native-uuid-generator'
 
@@ -78,40 +78,41 @@ class LocationDetailComponent extends Component {
 
   TimesheetModal() {
     return (
-      <Modal transparent={true} visible={this.state.modalTimesheetShow}>
-        <TimesheetCreateComponent
-          onCancel={this.handleTimesheetModal}
-          onSubmit={async (timesheet) => {
-            const { timesheets } = this.state
-            timesheet.id = await UUIDGenerator.getRandomUUID()
-            timesheets.push(timesheet)
-            this.setState({ timesheets, modalTimesheetShow: false })
-          }}
-        />
-      </Modal>
+      <TimesheetPicker
+        transparent={true}
+        visible={this.state.modalTimesheetShow}
+        onCancel={this.handleTimesheetModal}
+        onSubmit={async (timesheet) => {
+          const { timesheets } = this.state
+          timesheet.id = await UUIDGenerator.getRandomUUID()
+          timesheets.push(timesheet)
+          this.setState({ timesheets, modalTimesheetShow: false })
+        }}
+      />
     )
   }
 
   TimesheetItems() {
     const { timesheets } = this.state
-    const display = timesheets.length ? 'flex' : 'none'
 
-    return (
-      <CardItem key="TimesheetItems" style={{ flexDirection: 'column', display }}>
-        {this.state.timesheets.map((timesheet, index) => (
-          <TimesheetComponent
-            key={timesheet.id}
-            style={index !== 0 ? { paddingTop: 12 } : null}
-            timesheet={timesheet}
-            onRemove={() => {
-              const { timesheets } = this.state
-              timesheets.splice(index, 1)
-              this.setState({ timesheets })
-            }}
-          />
-        ))}
-      </CardItem>
-    )
+    if (timesheets && timesheets.length) {
+      return (
+        <CardItem key="TimesheetItems" style={{ flexDirection: 'column' }}>
+          {this.state.timesheets.map((timesheet, index) => (
+            <TimesheetComponent
+              key={timesheet.id}
+              style={index !== 0 ? { paddingTop: 12 } : null}
+              timesheet={timesheet}
+              onRemove={() => {
+                const { timesheets } = this.state
+                timesheets.splice(index, 1)
+                this.setState({ timesheets })
+              }}
+            />
+          ))}
+        </CardItem>
+      )
+    } else return null
   }
 
   Timesheet(style) {

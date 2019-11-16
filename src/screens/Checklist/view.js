@@ -1,8 +1,6 @@
-import lo from 'lodash'
 import React, { Component } from 'react'
-import { Text, Card, CardItem, Button, Icon, Toast } from 'native-base'
+import { Text, Card, CardItem, Button, Icon } from 'native-base'
 import { View, ScrollView, RefreshControl } from 'react-native'
-import { ACCENT_COLOR } from '../../fixtures/styles'
 import NavigationService from '../../navigation/NavigationService'
 import styles from './styles'
 
@@ -19,14 +17,13 @@ class ChecklistView extends Component {
           <RefreshControl refreshing={this.props.checklist.isLoading} onRefresh={this.props.fetchChecklist} />
         }
       >
-        <Text style={{ fontSize: 14, opacity: 0.5, marginBottom: 4 }}>Daily</Text>
         {this.renderChecklistCard('Coal Winning', this.props.checklistPerPit.COAL_WINNING)}
         {this.renderChecklistCard('OB Removal', this.props.checklistPerPit.OB_REMOVAL)}
         {this.renderChecklistCard('Dumping Point', this.props.checklistPerPit.DUMPING)}
         {this.renderChecklistCard('Blasting Activity', this.props.checklistPerPit.BLASTING)}
         {this.renderChecklistCard('Support Equipment', this.props.checklistPerPit.SUPPORT_EQUIPMENT)}
         {this.renderChecklistCard('Rain and Slippery', this.props.checklistPerPit.RAINFALL)}
-        <View height={32} />
+        <View height={24} />
       </ScrollView>
     )
   }
@@ -76,27 +73,16 @@ class ChecklistView extends Component {
 
   renderChecklistCard(checklistLabel, checklistItems) {
     return (
-      <Card style={styles.cardStyle}>
-        <CardItem key={checklistLabel} style={styles.cardHeaderStyle}>
+      <Card key={checklistLabel} style={styles.cardStyle}>
+        <CardItem key={`header${checklistLabel}`} style={styles.cardHeaderStyle}>
           <Text style={{ flex: 1 }}>{checklistLabel}</Text>
           <Button
             rounded
             small
-            style={{ backgroundColor: 'white' }}
+            style={styles.cardHeaderButtonStyle}
             onPress={() => this.handleCreateEditButton(checklistLabel)}
           >
-            <Icon
-              type="MaterialIcons"
-              name="add"
-              style={{
-                fontSize: 24,
-                color: ACCENT_COLOR,
-                marginLeft: 3,
-                marginRight: 3,
-                marginTop: 2,
-                marginBottom: 2,
-              }}
-            />
+            <Icon type="MaterialIcons" name="add" style={styles.cardHeaderButtonIconStyle} />
           </Button>
         </CardItem>
         {checklistItems && checklistItems.length ? (

@@ -36,8 +36,6 @@ class ChecklistCoalWinningCreateView extends Component {
       photosBase64: [],
     }
 
-    console.log(coalWinning)
-
     this.state = {
       step: 1,
       coalWinning,
@@ -57,11 +55,13 @@ class ChecklistCoalWinningCreateView extends Component {
   }
 
   onPrevious() {
-    this.setState({ step: this.state.step === 2 ? 1 : 2 })
+    const step = this.state.step === 2 ? 1 : 2
+    this.setState({ step })
   }
 
   onNext() {
-    this.setState({ step: this.state.step === 1 ? 2 : 3 })
+    const step = this.state.step === 1 ? 2 : 3
+    this.setState({ step })
   }
 
   async onComplete() {
@@ -81,22 +81,19 @@ class ChecklistCoalWinningCreateView extends Component {
           value={this.state.step}
           onPress={(step) => this.setState({ step })}
         />
-        <EquipmentView
-          show={this.state.step === 1}
-          excavators={this.props.excavators}
-          selectedPit={this.props.selectedPit}
-          coalWinning={this.state.coalWinning}
-        />
-        <SupportView
-          show={this.state.step === 2}
-          operationalPlan={this.props.operationalPlan}
-          coalWinning={this.state.coalWinning}
-        />
-        <LocationView
-          show={this.state.step === 3}
-          operationalPlan={this.props.operationalPlan}
-          locations={this.state.coalWinning.locations}
-        />
+        {this.state.step === 1 && (
+          <EquipmentView
+            excavators={this.props.excavators}
+            selectedPit={this.props.selectedPit}
+            coalWinning={this.state.coalWinning}
+          />
+        )}
+        {this.state.step === 2 && (
+          <SupportView operationalPlan={this.props.operationalPlan} coalWinning={this.state.coalWinning} />
+        )}
+        {this.state.step === 3 && (
+          <LocationView operationalPlan={this.props.operationalPlan} locations={this.state.coalWinning.locations} />
+        )}
         <View style={{ flexDirection: 'row', backgroundColor: 'white', elevation: 4 }}>
           {this.footerButton('Previous', [2, 3], this.onPrevious.bind(this))}
           {this.footerButton('Next', [1, 2], this.onNext.bind(this), { textAlign: 'right' })}
