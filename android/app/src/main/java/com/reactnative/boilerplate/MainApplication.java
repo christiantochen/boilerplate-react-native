@@ -12,6 +12,8 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 
+import com.rssignaturecapture.RSSignatureCapturePackage;
+
 
 import java.util.List;
 
@@ -27,12 +29,11 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       @SuppressWarnings("UnnecessaryLocalVariable")
 
-      long size = 100 * 1024L * 1024L; // 100 MB
-      ReactDatabaseSupplier.getInstance(getApplicationContext()).setMaximumSize(size);
-
       List<ReactPackage> packages = new PackageList(this).getPackages();
       // Packages that cannot be autolinked yet can be added manually here, for example:
       // packages.add(new MyReactNativePackage());
+      packages.add(new RSSignatureCapturePackage());
+
       return packages;
     }
 

@@ -4,5 +4,6 @@ import Splash from './Splash'
 import PitSelection from './PitSelection'
 import Checklist from './Checklist'
 import ChecklistCoalWinningCreate from './ChecklistCoalWinningCreate'
+import ChecklistCoalWinningSubmit from './ChecklistCoalWinningSubmit'
 
-export { Home, PitSelection, Splash, Login, Checklist, ChecklistCoalWinningCreate }
+export { Home, PitSelection, Splash, Login, Checklist, ChecklistCoalWinningCreate, ChecklistCoalWinningSubmit }

@@ -162,7 +162,6 @@ class EquipmentView extends Component {
           <Text style={{ flex: 1, textAlign: 'right' }}>Back</Text>
         </Button>
         <ImageViewer
-          enablePreload={true}
           imageUrls={photosBase64.map((photoBase64) => ({ url: photoBase64 }))}
           saveToLocalByLongPress={false}
           index={this.state.modalPhotosShowIndex}

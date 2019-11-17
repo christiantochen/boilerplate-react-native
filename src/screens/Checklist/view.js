@@ -43,10 +43,25 @@ class ChecklistView extends Component {
     }
   }
 
+  handleSubmitButton(checklistLabel, checklist) {
+    switch (checklistLabel) {
+      case 'Coal Winning':
+        NavigationService.navigate('ChecklistCoalWinningSubmit', { checklist })
+        break
+      case 'OB Removal':
+      case 'Dumping Point':
+      case 'Blasting Activity':
+      case 'Support Equipment':
+      case 'Rain and Slippery':
+      default:
+        break
+    }
+  }
+
   renderChecklistCardItemWithButton(checklistLabel, checklist) {
     return (
       <CardItem key={checklist.id} style={styles.cardItemStyle}>
-        <Text style={{ flex: 1 }}>{checklist.title}</Text>
+        <Text style={styles.cardItemTitleStyle}>{checklist.title}</Text>
         <Button
           transparent
           style={styles.cardItemButtonStyle}
@@ -54,7 +69,11 @@ class ChecklistView extends Component {
         >
           <Text style={styles.cardItemButtonTextStyle}>Edit</Text>
         </Button>
-        <Button transparent style={styles.cardItemButtonStyle}>
+        <Button
+          transparent
+          style={styles.cardItemButtonStyle}
+          onPress={() => this.handleSubmitButton(checklistLabel, checklist)}
+        >
           <Text style={{ ...styles.cardItemButtonTextStyle, paddingRight: 0 }}>Submit</Text>
         </Button>
       </CardItem>
@@ -64,8 +83,8 @@ class ChecklistView extends Component {
   renderChecklistCardItem(checklistLabel, checklist) {
     return (
       <CardItem key={checklist.id} style={styles.cardItemStyle}>
-        <Text style={{ flex: 1 }}>{checklist.title}</Text>
-        <Text style={{ marginRight: 24, textAlign: 'right', color: '#AFAFB9' }}>{checklist.shiftTimestamp}</Text>
+        <Text style={styles.cardItemTitleStyle}>{checklist.title}</Text>
+        <Text style={styles.cardItemSubTitleStyle}>{checklist.shiftTimestamp}</Text>
         <Text style={{ textAlign: 'right', color: '#44D7B6' }}>Submitted</Text>
       </CardItem>
     )

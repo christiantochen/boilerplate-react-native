@@ -42,6 +42,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#F3F3F3',
   },
   cardItemButtonStyle: { borderLeftWidth: 1, borderColor: '#AFAFB9', height: 20, borderRadius: 0 },
+  cardItemTitleStyle: { flex: 1 },
+  cardItemSubTitleStyle: { marginRight: 24, textAlign: 'right', color: '#AFAFB9' },
   cardItemButtonTextStyle: { color: '#AFAFB9', paddingHorizontal: 16, textTransform: 'capitalize' },
   noChecklistLabel: {
     flex: 1,

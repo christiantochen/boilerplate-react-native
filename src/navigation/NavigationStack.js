@@ -16,6 +16,7 @@ import {
   PitSelection,
   Checklist,
   ChecklistCoalWinningCreate,
+  ChecklistCoalWinningSubmit,
 } from '../screens'
 
 const SplashScreen = { screen: Splash }
@@ -41,6 +42,7 @@ const stackOptions = {
 const ChecklistStack = {
   Checklist: { screen: Checklist },
   ChecklistCoalWinningCreate: { screen: ChecklistCoalWinningCreate },
+  ChecklistCoalWinningSubmit: { screen: ChecklistCoalWinningSubmit },
 }
 
 const bottomTabNavigator = createBottomTabNavigator(
@@ -55,37 +57,13 @@ const bottomTabNavigator = createBottomTabNavigator(
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         const { routeName } = navigation.state
         if (routeName === 'Tasks') {
-          return (
-            <Icon
-              type="MaterialIcons"
-              name="announcement"
-              style={{ color: tintColor, width: 24, height: 24 }}
-            />
-          )
+          return <Icon type="MaterialIcons" name="announcement" style={{ color: tintColor, width: 24, height: 24 }} />
         } else if (routeName === 'Performances') {
-          return (
-            <Icon
-              type="MaterialIcons"
-              name="assessment"
-              style={{ color: tintColor, width: 24, height: 24 }}
-            />
-          )
+          return <Icon type="MaterialIcons" name="assessment" style={{ color: tintColor, width: 24, height: 24 }} />
         } else if (routeName === 'Checklist') {
-          return (
-            <Icon
-              type="MaterialIcons"
-              name="assignment"
-              style={{ color: tintColor, width: 24, height: 24 }}
-            />
-          )
+          return <Icon type="MaterialIcons" name="assignment" style={{ color: tintColor, width: 24, height: 24 }} />
         } else {
-          return (
-            <Icon
-              type="MaterialIcons"
-              name="description"
-              style={{ color: tintColor, width: 24, height: 24 }}
-            />
-          )
+          return <Icon type="MaterialIcons" name="description" style={{ color: tintColor, width: 24, height: 24 }} />
         }
       },
     }),
@@ -96,10 +74,7 @@ const bottomTabNavigator = createBottomTabNavigator(
   }
 )
 
-const drawerNavigator = createDrawerNavigator(
-  { Home: bottomTabNavigator },
-  { contentComponent: Sidebar }
-)
+const drawerNavigator = createDrawerNavigator({ Home: bottomTabNavigator }, { contentComponent: Sidebar })
 
 const nav = createSwitchNavigator(
   {
