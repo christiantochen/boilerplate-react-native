@@ -8,7 +8,7 @@ import { TEXT_COLOR_ACCENT, TEXT_COLOR_WHITE } from '../../fixtures/styles'
 import { SessionAction } from '../../actions'
 import NavigationService from '../../navigation/NavigationService'
 
-class Sidebar extends Component {
+class SideBar extends Component {
   constructor(props) {
     super(props)
 
@@ -26,7 +26,7 @@ class Sidebar extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Image style={styles.headerLogo} source={require('assets/ic_logo.png')}></Image>
+          <Image style={styles.headerLogo} source={require('assets/ic_logo.png')} />
           <Text style={styles.headerTitle}>SUPERVISOR APP</Text>
         </View>
         <View style={styles.profileContent}>
@@ -40,14 +40,14 @@ class Sidebar extends Component {
               <Text style={styles.pitName}>{this.state.selectedPit.name}</Text>
               <Text style={styles.contractorName}>{this.state.selectedContractor.name}</Text>
             </View>
-            <Icon color={TEXT_COLOR_ACCENT} type="MaterialIcons" name="edit"></Icon>
+            <Icon color={TEXT_COLOR_ACCENT} type="MaterialIcons" name="edit" />
           </View>
         </TouchableOpacity>
         <View style={{ flex: 1 }} />
         <TouchableOpacity onPress={this.props.sessionClear}>
           <View style={styles.logoutButton}>
             <Text style={styles.logoutText}>Logout</Text>
-            <Icon style={{ color: TEXT_COLOR_WHITE }} type="MaterialIcons" name="exit-to-app"></Icon>
+            <Icon style={{ color: TEXT_COLOR_WHITE }} type="MaterialIcons" name="exit-to-app" />
           </View>
         </TouchableOpacity>
         <Text style={styles.version}>v1.0.4</Text>
@@ -71,4 +71,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withNavigation(Sidebar))
+)(withNavigation(SideBar))

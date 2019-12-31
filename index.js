@@ -17,8 +17,8 @@ AppRegistry.registerComponent(appName, () => Entrypoint)
 //   .filter((moduleId) => !modules[moduleId].isInitialized)
 //   .map((moduleId) => modules[moduleId].verboseName)
 
-// make sure that the modules you expect to be waiting are actually waiting
+// // make sure that the modules you expect to be waiting are actually waiting
 // console.log('loaded:', loadedModuleNames.length, 'waiting:', waitingModuleNames.length)
 
-// grab this text blob, and put it in a file named packager/modulePaths.js
+// // grab this text blob, and put it in a file named packager/modulePaths.js
 // console.log(`module.exports = ${JSON.stringify(loadedModuleNames.sort())};`)

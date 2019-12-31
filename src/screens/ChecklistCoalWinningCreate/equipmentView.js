@@ -119,7 +119,7 @@ class EquipmentView extends Component {
     const { noActivity } = this.state.coalWinning
 
     return (
-      <ScrollView key="equipmentView" style={{ padding: 16 }}>
+      <ScrollView key="equipmentView" contentContainerStyle={{ padding: 16 }} removeClippedSubviews={true}>
         <Card key="equipmentView_mainCard" style={{ ...styles.borderRadius }}>
           {this.Pit({ ...styles.borderTopRadius, ...styles.borderBottomDivider, height: 44 })}
           {this.Activity({

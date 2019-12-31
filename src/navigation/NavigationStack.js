@@ -1,13 +1,16 @@
 import React from 'react'
 import { Icon } from 'native-base'
 import { createAppContainer, createSwitchNavigator } from 'react-navigation'
-import { createStackNavigator } from 'react-navigation-stack'
+import createAnimatedSwitchNavigator from 'react-navigation-animated-switch'
+import { createStackNavigator, StackViewTransitionConfigs } from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { createDrawerNavigator } from 'react-navigation-drawer'
+import { Transition } from 'react-native-reanimated'
 
 import { ACCENT_COLOR, TEXT_COLOR_WHITE, TEXT_COLOR_GRAY } from '../fixtures/styles'
 
-import Sidebar from 'app/components/Sidebar'
+import SideBar from '../components/SideBar'
+import BottomBar from '../components/BottomBar'
 
 import {
   Splash,
@@ -37,6 +40,7 @@ const stackOptions = {
   navigationOptions: ({ navigation }) => {
     return { tabBarVisible: navigation.state.routes.length === 1 }
   },
+  transitionConfig: () => StackViewTransitionConfigs.SlideFromRightIOS,
 }
 
 const ChecklistStack = {
@@ -53,6 +57,7 @@ const bottomTabNavigator = createBottomTabNavigator(
     Report: createStackNavigator({ Report: HomeScreen }, stackOptions),
   },
   {
+    tabBarComponent: BottomBar,
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         const { routeName } = navigation.state
@@ -74,7 +79,7 @@ const bottomTabNavigator = createBottomTabNavigator(
   }
 )
 
-const drawerNavigator = createDrawerNavigator({ Home: bottomTabNavigator }, { contentComponent: Sidebar })
+const drawerNavigator = createDrawerNavigator({ Home: bottomTabNavigator }, { contentComponent: SideBar })
 
 const nav = createSwitchNavigator(
   {
@@ -83,7 +88,15 @@ const nav = createSwitchNavigator(
     PitSelection: PitSelectionScreen,
     App: drawerNavigator,
   },
-  { initialRouteName: 'Splash' }
+  {
+    // transition: (
+    //   <Transition.Together>
+    //     <Transition.Out type="slide-left" durationMs={200} />
+    //     <Transition.In type="slide-right" durationMs={300} />
+    //   </Transition.Together>
+    // ),
+    initialRouteName: 'Splash',
+  }
 )
 
 export default createAppContainer(nav)

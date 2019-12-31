@@ -1,6 +1,13 @@
 import { StyleSheet } from 'react-native'
-import { RESET_STYLE, ACCENT_COLOR, TEXT_COLOR_WHITE, LOGO_SIZE_SMALL } from 'app/fixtures/styles'
-import { BACKGROUND_COLOR_WHITE, TEXT_COLOR, BORDER_COLOR_GRAY } from '../../fixtures/styles'
+import {
+  RESET_STYLE,
+  ACCENT_COLOR,
+  TEXT_COLOR_WHITE,
+  LOGO_SIZE_SMALL,
+  BACKGROUND_COLOR_WHITE,
+  TEXT_COLOR,
+  BORDER_COLOR_GRAY,
+} from '../../fixtures/styles'
 
 const styles = StyleSheet.create({
   container: {
