@@ -1,0 +1,3 @@
+export const TOGGLE_LOADING = 'TOGGLE_LOADING'
+
+export const LOGIN_REQUEST = 'LOGIN_REQUEST'

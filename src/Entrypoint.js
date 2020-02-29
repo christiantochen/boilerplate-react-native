@@ -7,7 +7,7 @@ import { ActivityIndicator } from 'react-native'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/es/integration/react'
 import Navigator from './navigation'
-import configureStore from './config/store'
+import configureStore from './redux/store'
 import { Root } from 'native-base'
 const { persistor, store } = configureStore()
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { View, Text, Image } from 'react-native'
-import styles from './styles'
+import { Text } from 'react-native'
+import { Wrapper } from './styles'
 import PropTypes from 'prop-types'
 
 class SplashView extends Component {
@@ -8,22 +8,15 @@ class SplashView extends Component {
     super(props)
   }
 
-  componentDidMount() {
-       setTimeout(() => this.props.initCheckAndNavigate(), 500);
-  }
-
   render() {
     return (
-      <View style={styles.container}>
-        <Image style={styles.logo} source={require('assets/ic_logo.png')}></Image>
-        <Text style={styles.title}>SUPERVISOR APP</Text>
-      </View>
+      <Wrapper>
+        <Text>DEVELOPMENT</Text>
+      </Wrapper>
     )
   }
 }
 
-SplashView.propTypes = {
-  initCheckAndNavigate: PropTypes.func,
-}
+SplashView.propTypes = {}
 
 export default SplashView
