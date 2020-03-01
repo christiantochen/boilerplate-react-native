@@ -1,4 +1,4 @@
-package com.awesomeproject;
+package com.endlesscode.reactnativeboilerplate;
 
 import android.app.Application;
 import android.content.Context;
