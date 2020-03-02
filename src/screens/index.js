@@ -1,3 +1,4 @@
 import Splash from './Splash'
+import ExploreTab from './ExploreTab'
 
-export { Splash }
+export { Splash, ExploreTab }

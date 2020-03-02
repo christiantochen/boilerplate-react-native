@@ -5,23 +5,15 @@ import { createBottomTabNavigator } from 'react-navigation-tabs'
 // import { createDrawerNavigator } from 'react-navigation-drawer'
 import { Transition } from 'react-native-reanimated'
 
-import { Splash } from '../screens'
+import { Splash as SplashScreen } from '../screens'
+import BottomTabNavigator from './BottomTabNavigator'
 
-const SplashScreen = { screen: Splash }
-
-const bottomTab = createBottomTabNavigator(
-  {
-    Discover: createStackNavigator({ Splash: SplashScreen }),
-  },
-  {
-    initialRouteName: 'Discover',
-  }
-)
+const Splash = { screen: SplashScreen }
 
 const nav = createAnimatedSwitchNavigator(
   {
-    Splash: SplashScreen,
-    App: bottomTab,
+    Splash,
+    App: BottomTabNavigator,
   },
   {
     // transition: (
@@ -34,4 +26,4 @@ const nav = createAnimatedSwitchNavigator(
   }
 )
 
-export default createAppContainer(nav)
+export default createAppContainer(BottomTabNavigator)

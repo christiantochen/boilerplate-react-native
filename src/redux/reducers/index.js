@@ -1,4 +1,4 @@
-import * as auth from './authReducer'
+import * as trendingManga from './trendingMangaReducer'
 import * as loading from './loadingReducer'
 
-export default Object.assign(auth, loading)
+export default Object.assign(trendingManga, loading)
