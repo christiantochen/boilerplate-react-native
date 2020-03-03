@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Text, ScrollView, View, Image } from 'react-native'
 import { Wrapper } from './styles'
 import PropTypes from 'prop-types'
+import HorizontalScroll from './HorizontalScroll'
 
 class ExploreView extends Component {
   constructor(props) {
@@ -14,91 +15,8 @@ class ExploreView extends Component {
 
   render() {
     return (
-      <ScrollView contentContainerStyle={{ padding: 16 }}>
-        <ScrollView horizontal={true}>
-          {this.props.trendingManga.data.map((manga) => {
-            return (
-              <View>
-                <Image
-                  source={{ uri: manga?.attributes?.posterImage?.medium, height: 201, width: 142 }}
-                  height={200}
-                  width={75}
-                />
-                <Text>{manga?.attributes?.titles['en_jp']}</Text>
-              </View>
-            )
-          })}
-        </ScrollView>
-        <ScrollView horizontal={true}>
-          {this.props.trendingManga.data.map((manga) => {
-            return (
-              <View>
-                <Image
-                  source={{ uri: manga?.attributes?.posterImage?.medium, height: 201, width: 142 }}
-                  height={200}
-                  width={75}
-                />
-                <Text>{manga?.attributes?.titles['en_jp']}</Text>
-              </View>
-            )
-          })}
-        </ScrollView>
-        <ScrollView horizontal={true}>
-          {this.props.trendingManga.data.map((manga) => {
-            return (
-              <View>
-                <Image
-                  source={{ uri: manga?.attributes?.posterImage?.medium, height: 201, width: 142 }}
-                  height={200}
-                  width={75}
-                />
-                <Text>{manga?.attributes?.titles['en_jp']}</Text>
-              </View>
-            )
-          })}
-        </ScrollView>
-        <ScrollView horizontal={true}>
-          {this.props.trendingManga.data.map((manga) => {
-            return (
-              <View>
-                <Image
-                  source={{ uri: manga?.attributes?.posterImage?.medium, height: 201, width: 142 }}
-                  height={200}
-                  width={75}
-                />
-                <Text>{manga?.attributes?.titles['en_jp']}</Text>
-              </View>
-            )
-          })}
-        </ScrollView>
-        <ScrollView horizontal={true}>
-          {this.props.trendingManga.data.map((manga) => {
-            return (
-              <View>
-                <Image
-                  source={{ uri: manga?.attributes?.posterImage?.medium, height: 201, width: 142 }}
-                  height={200}
-                  width={75}
-                />
-                <Text>{manga?.attributes?.titles['en_jp']}</Text>
-              </View>
-            )
-          })}
-        </ScrollView>
-        <ScrollView horizontal={true}>
-          {this.props.trendingManga.data.map((manga) => {
-            return (
-              <View>
-                <Image
-                  source={{ uri: manga?.attributes?.posterImage?.medium, height: 201, width: 142 }}
-                  height={200}
-                  width={75}
-                />
-                <Text>{manga?.attributes?.titles['en_jp']}</Text>
-              </View>
-            )
-          })}
-        </ScrollView>
+      <ScrollView style={{ backgroundColor: 'black' }} contentContainerStyle={{ paddingVertical: 16 }}>
+        <HorizontalScroll title={'Trending'} data={this.props.trendingManga.data} />
       </ScrollView>
     )
   }
