@@ -4,11 +4,12 @@
  */
 import React, { Component } from 'react'
 import { ActivityIndicator } from 'react-native'
-import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/es/integration/react'
+import { Provider } from 'react-redux'
+import { Root } from 'native-base'
 import Navigator from './navigation'
 import configureStore from './redux/store'
-import { Root } from 'native-base'
+
 const { persistor, store } = configureStore()
 
 export default class Entrypoint extends Component {

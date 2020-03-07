@@ -38,7 +38,7 @@ class HorizontalScroll extends Component {
       <Wrapper>
         <Header>{this.props.title}</Header>
         <ScrollView contentContainerStyle={{ paddingVertical: 16 }} horizontal={true}>
-          {this.props.data.map(this.renderCard.bind(this))}
+          {this.props.data?.map(this.renderCard.bind(this))}
         </ScrollView>
       </Wrapper>
     )
