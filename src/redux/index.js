@@ -10,8 +10,7 @@ import sagas from './sagas'
 const config = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: [],
-  blacklist: ['navigation', 'loading'],
+  blacklist: ['navigation', 'loading', 'network', 'location'],
   debug: true, //to get useful logging
 }
 
@@ -32,10 +31,7 @@ const store = createStore(reducers, undefined, compose(...enhancers))
 const persistor = persistStore(store, persistConfig, () => {
   //   console.log('Test', store.getState());
 })
-const configureStore = () => {
-  return { persistor, store }
-}
 
 sagaMiddleware.run(sagas)
 
-export default configureStore
+export { persistor, store }

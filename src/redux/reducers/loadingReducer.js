@@ -1,10 +1,10 @@
-import { TOGGLE_LOADING } from '../actionTypes'
+import { LOADING_ACTION_TOGGLE } from '../actions'
 import createReducer from '../../lib/createReducer'
 
 const initialState = false
 
 export const loading = createReducer(initialState, {
-  [TOGGLE_LOADING](state) {
+  [LOADING_ACTION_TOGGLE](state) {
     return !state
   },
 })

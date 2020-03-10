@@ -8,9 +8,7 @@ import { PersistGate } from 'redux-persist/es/integration/react'
 import { Provider } from 'react-redux'
 import { Root } from 'native-base'
 import Navigator from './navigation'
-import configureStore from './redux/store'
-
-const { persistor, store } = configureStore()
+import { persistor, store } from './redux'
 
 export default class Entrypoint extends Component {
   render() {
