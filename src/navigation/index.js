@@ -1,17 +1,15 @@
-import React, { Component } from 'react';
-import NavigationStack from './NavigationStack';
-import NavigationService from './NavigationService';
+import React, { Component } from 'react'
+import { NavigationContainer } from '@react-navigation/native'
+import RootStack from './RootStack'
 
 class AppNavigator extends Component {
-    render() {
-        return (
-            <NavigationStack
-                ref={navigatorRef => {
-                    NavigationService.setTopLevelNavigator(navigatorRef);
-                }}
-            />
-        );
-    }
+  render() {
+    return (
+      <NavigationContainer>
+        <RootStack />
+      </NavigationContainer>
+    )
+  }
 }
 
-export default AppNavigator;
+export default AppNavigator

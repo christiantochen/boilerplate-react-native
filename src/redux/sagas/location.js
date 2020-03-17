@@ -1,6 +1,35 @@
+import Geolocation from '@react-native-community/geolocation'
 import { PermissionsAndroid } from 'react-native'
-import { call, fork, take, put } from 'redux-saga/effects'
-import { getCurrentPosition } from 'redux-saga-location'
+import { channel } from 'redux-saga'
+import { take, put, call, fork } from 'redux-saga/effects'
+import { LOCATION_ACTION_SET_POSITION, LOCATION_ACTION_SET_ERROR, LOCATION_ACTION_REQUEST } from '../actions'
+
+export const locationChannel = channel()
+
+export function* watchLocationChannel() {
+  while (true) {
+    const action = yield take(locationChannel)
+    yield put(action)
+  }
+}
+
+export function* getCurrentPosition(options) {
+  locationChannel.put({ type: LOCATION_ACTION_REQUEST })
+  Geolocation.getCurrentPosition(
+    (position) => locationChannel.put({ type: LOCATION_ACTION_SET_POSITION, position }),
+    (error) => locationChannel.put({ type: LOCATION_ACTION_SET_ERROR, error }),
+    options
+  )
+}
+
+export function* watchCurrentPosition(options) {
+  locationChannel.put({ type: LOCATION_ACTION_REQUEST })
+  Geolocation.watchPosition(
+    (position) => locationChannel.put({ type: LOCATION_ACTION_SET_POSITION, position }),
+    (error) => locationChannel.put({ type: LOCATION_ACTION_SET_ERROR, error }),
+    options
+  )
+}
 
 export function* requestAuthorization(action) {
   if ([action.error.PERMISSION_DENIED, action.error.POSITION_UNAVAILABLE].includes(action.error.code)) {
@@ -14,3 +43,5 @@ export function* requestAuthorization(action) {
     }
   }
 }
+
+// export function* 

@@ -13,7 +13,11 @@ class ExploreContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  return {}
+  return {
+    network: state.network,
+    location: state.location,
+    loading: state.loading,
+  }
 }
 
 function mapDispatchToProps(dispatch) {
