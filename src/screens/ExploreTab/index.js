@@ -14,6 +14,7 @@ class ExploreContainer extends Component {
 
 function mapStateToProps(state) {
   return {
+    self: state.self,
     network: state.network,
     location: state.location,
     loading: state.loading,

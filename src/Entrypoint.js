@@ -3,7 +3,7 @@
  * Everthing starts from the entrypoint
  */
 import React, { Component } from 'react'
-import { ActivityIndicator } from 'react-native'
+import { ActivityIndicator, StatusBar } from 'react-native'
 import { PersistGate } from 'redux-persist/es/integration/react'
 import { Provider } from 'react-redux'
 import { Root } from 'native-base'
@@ -19,6 +19,7 @@ export default class Entrypoint extends Component {
         <ThemeProvider theme={theme}>
           <Root>
             <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
+              <StatusBar backgroundColor="#4182E6" />
               <Navigator />
             </PersistGate>
           </Root>

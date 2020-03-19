@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
-import { ScrollView, View, Image } from 'react-native'
-import { Wrapper } from './styles'
-import PropTypes from 'prop-types'
-import { Card, CardItem, Toast } from 'native-base'
+import { ScrollView, View, Dimensions } from 'react-native'
 import { Text, FAIcon } from '../../components'
-import PunchButton from './PunchButton'
+import Button from './Button'
+import ProfileCard from './ProfileCard'
+import MapView, { PROVIDER_GOOGLE, Marker, Circle } from 'react-native-maps'
+
+const { width, height } = Dimensions.get('window')
+const ASPECT_RATIO = width / height
+// const LATITUDE_DELTA = 0.015
+const LATITUDE_DELTA = 0.15
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 class ExploreView extends Component {
   constructor(props) {
@@ -13,33 +18,43 @@ class ExploreView extends Component {
 
   render() {
     return (
-      <>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingVertical: 16,
-            paddingHorizontal: 24,
-            borderBottomColor: 'gray',
-            borderBottomWidth: 1,
-          }}
-        >
-          <FAIcon name="user" size={32} style={{ marginRight: 16 }} />
-          <View style={{ flex: 1 }}>
-            <Text style={{ fontSize: 12, fontWeight: 'bold' }}>Welcome back</Text>
-            <Text>Christianto Chen</Text>
+      <View style={{ flex: 1 }}>
+        <ProfileCard position={this.props.location.position} />
+        {this.props.location.position && (
+          <MapView
+            provider={PROVIDER_GOOGLE}
+            style={{ flex: 1 }}
+            initialRegion={{
+              latitude: this.props.location.position.coords.latitude,
+              longitude: this.props.location.position.coords.longitude,
+              latitudeDelta: LATITUDE_DELTA,
+              longitudeDelta: LONGITUDE_DELTA,
+            }}
+            showsUserLocation={true}
+          >
+            {/* {this.props.location.data
+              .map(({ longitude, latitude }) => (
+                <Circle
+                  center={{ longitude, latitude }}
+                  radius={25}
+                  strokeWidth={1}
+                  strokeColor={'#FF414188'}
+                  fillColor={'#FF828222'}
+                />
+              ))} */}
+            {this.props.location.data.map(({ id, name, longitude, latitude }) => (
+              <Marker key={id} coordinate={{ longitude, latitude }} title={name} />
+            ))}
+          </MapView>
+        )}
+        {/* <ProfileCard />
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', padding: 8 }}>
+            <Button />
           </View>
-          <View style={{ alignSelf: 'flex-start' }}>
-            <Text style={{ fontSize: 12, color: '#30a430' }}>You're in office network</Text>
-          </View>
-        </View>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', padding: '1%' }}>
-          <PunchButton />
-        </View>
-        <ScrollView contentContainerStyle={{ padding: 8 }}>
-          <Text>Test</Text>
-        </ScrollView>
-      </>
+          <ScrollView contentContainerStyle={{ padding: 8 }}>
+            
+          </ScrollView> */}
+      </View>
     )
   }
 }

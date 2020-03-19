@@ -1,0 +1,3 @@
+export const SHIFT_ABSENT = 'ABSENT'
+export const SHIFT_CLOCKED_IN = 'CLOCKED_IN'
+export const SHIFT_CLOCKED_OUT = 'CLOCKED_OUT'
