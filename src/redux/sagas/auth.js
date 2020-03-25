@@ -1,4 +1,5 @@
-import { take, put, call, fork } from 'redux-saga/effects'
+import { call, fork, put, take } from 'redux-saga/effects'
+
 import { LOADING_ACTION_SET_START } from '../actions'
 
 export function* login(action) {

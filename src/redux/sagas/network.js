@@ -1,7 +1,8 @@
-import { channel } from 'redux-saga'
-import { take, put, call } from 'redux-saga/effects'
 import NetInfo from '@react-native-community/netinfo'
-import { NETWORK_ACTION_SET_CONNECTION, NETWORK_ACTION_REQUEST } from '../actions'
+import { channel } from 'redux-saga'
+import { call, put, take } from 'redux-saga/effects'
+
+import { NETWORK_ACTION_REQUEST, NETWORK_ACTION_SET_CONNECTION } from '../actions'
 
 export const networkChannel = channel()
 

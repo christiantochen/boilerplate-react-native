@@ -47,12 +47,19 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-native": "^3.8.1",
+    "import-sort-style-module": "^6.0.0",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.58.0",
     "prettier": "^2.0.2",
+    "prettier-plugin-import-sort": "0.0.4",
     "react-test-renderer": "16.9.0"
   },
   "jest": {
     "preset": "react-native"
+  },
+  "importSort": {
+    ".js, .jsx, .ts, .tsx": {
+      "style": "module"
+    }
   }
 }

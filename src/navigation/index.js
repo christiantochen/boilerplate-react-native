@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 import { Home, Login, Splash } from '../screens'
 

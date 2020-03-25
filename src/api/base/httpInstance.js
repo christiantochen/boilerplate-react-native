@@ -1,9 +1,14 @@
 import axios from 'axios'
-import { store } from '../../redux'
+import env from 'react-native-config'
+
 import { REFRESH_TOKEN_URL } from '../../fixtures/backendUrl'
+import { store } from '../../redux'
 import { AUTH_ACTION_EXPIRED, AUTH_ACTION_SET_TOKEN } from '../../redux/actions'
 
-const httpInstance = axios.create({ timeout: 10000, baseURL: process.env.BACKEND_URL })
+export const SERVER_URL = env.API_HOST
+
+const baseURL = env.BACKEND_URL
+const httpInstance = axios.create({ timeout: 10000, baseURL })
 
 const handleResponse = (res) => {
   const { data, status } = res
@@ -18,7 +23,7 @@ const refreshTokenAndRetry = (req) => {
   const { auth } = store.getState()
 
   return axios
-    .post(REFRESH_TOKEN_URL, { token: auth.refreshToken })
+    .post(`${baseURL}${REFRESH_TOKEN_URL}`, { token: auth.refreshToken })
     .then((res) => {
       const token = res.data.token
       store.dispatch({ type: AUTH_ACTION_SET_TOKEN, token, refreshToken: auth.refreshToken })

@@ -1,6 +1,7 @@
+import { NetInfoStateType } from '@react-native-community/netinfo'
+
 import { NETWORK_ACTION_SET_CONNECTION } from '../actions'
 import createReducer from '../createReducer'
-import { NetInfoStateType } from '@react-native-community/netinfo'
 
 const initialState = {
   type: NetInfoStateType.none,

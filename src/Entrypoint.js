@@ -1,16 +1,17 @@
+import { Root } from 'native-base'
 /**
  * React Native App
  * Everthing starts from the entrypoint
  */
 import React, { Component } from 'react'
 import { ActivityIndicator, StatusBar } from 'react-native'
-import { PersistGate } from 'redux-persist/es/integration/react'
 import { Provider } from 'react-redux'
-import { Root } from 'native-base'
+import { PersistGate } from 'redux-persist/es/integration/react'
 import { ThemeProvider } from 'styled-components'
+
+import theme from './fixtures/theme'
 import Navigator from './navigation'
 import { persistor, store } from './redux'
-import theme from './fixtures/theme'
 
 export default class Entrypoint extends Component {
   render() {

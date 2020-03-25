@@ -1,11 +1,11 @@
-import createReducer from '../createReducer'
 import {
-  AUTH_ACTION_SET_TOKEN,
-  AUTH_ACTION_LOGIN,
-  AUTH_ACTION_SET_ERROR,
-  AUTH_ACTION_LOGOUT,
   AUTH_ACTION_EXPIRED,
+  AUTH_ACTION_LOGIN,
+  AUTH_ACTION_LOGOUT,
+  AUTH_ACTION_SET_ERROR,
+  AUTH_ACTION_SET_TOKEN,
 } from '../actions'
+import createReducer from '../createReducer'
 
 const initialState = {
   username: undefined,

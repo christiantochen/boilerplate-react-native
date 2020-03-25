@@ -1,8 +1,9 @@
 import Geolocation from '@react-native-community/geolocation'
 import { PermissionsAndroid } from 'react-native'
 import { channel } from 'redux-saga'
-import { take, put, call, fork } from 'redux-saga/effects'
-import { LOCATION_ACTION_SET_POSITION, LOCATION_ACTION_SET_ERROR, LOCATION_ACTION_REQUEST } from '../actions'
+import { call, fork, put, take } from 'redux-saga/effects'
+
+import { LOCATION_ACTION_REQUEST, LOCATION_ACTION_SET_ERROR, LOCATION_ACTION_SET_POSITION } from '../actions'
 
 export const locationChannel = channel()
 

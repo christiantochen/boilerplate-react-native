@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import View from './view'
+
 import { AUTH_ACTION_LOGIN } from '../../redux/actions'
+import View from './view'
 
 class LoginContainer extends Component {
   render() {

@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Text } from 'react-native'
-import { Wrapper } from './styles'
-import PropTypes from 'prop-types'
+
 import { Input } from '../../components'
+import { Wrapper } from './styles'
 
 class LoginView extends Component {
   constructor(props) {

@@ -1,4 +1,4 @@
-import { LOCATION_ACTION_SET_POSITION, LOCATION_ACTION_SET_ERROR } from '../actions'
+import { LOCATION_ACTION_SET_ERROR, LOCATION_ACTION_SET_POSITION } from '../actions'
 import createReducer from '../createReducer'
 
 const initialState = {
