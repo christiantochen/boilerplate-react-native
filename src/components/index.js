@@ -1,3 +1,1 @@
-export * from './FAIcon'
-export * from './Text'
-export * from './Input'
+export * from './native-base'

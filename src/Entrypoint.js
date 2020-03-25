@@ -22,6 +22,7 @@ export default class Entrypoint extends Component {
             <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
               <StatusBar backgroundColor={theme.color.accent} />
               <Navigator />
+              {/* TODO: Global Loading */}
             </PersistGate>
           </Root>
         </ThemeProvider>

@@ -1,7 +1,10 @@
 import { store } from '../../redux'
 import { handleParam, handleQuery } from './handler'
+import httpInstance from './httpInstance'
 
 export const request = (config) => {
+  if (!config.headers) config.headers = {}
+
   if (!config.headers.authorization) {
     const { auth } = store.getState()
     config.headers.authorization = `Bearer ${auth.token}`

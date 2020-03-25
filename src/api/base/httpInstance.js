@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Toast } from 'native-base'
 import env from 'react-native-config'
 
 import { REFRESH_TOKEN_URL } from '../../fixtures/backendUrl'
@@ -11,6 +12,8 @@ const baseURL = env.BACKEND_URL
 const httpInstance = axios.create({ timeout: 10000, baseURL })
 
 const handleResponse = (res) => {
+  if (!res) return { ok: false }
+
   const { data, status } = res
 
   return { ok: status && status >= 200 && status < 300, status, data }
@@ -43,12 +46,15 @@ const refreshTokenAndRetry = (req) => {
 httpInstance.interceptors.response.use(
   (response) => handleResponse(response),
   (error) => {
-    const { response, config } = error
+    const { response, config, message } = error
 
     if (isAccessTokenExpired(error.response) && !config._retry) {
       config._retry = true
       return refreshTokenAndRetry(config)
     }
+
+    // TODO: HANDLE ERROR WITH UNDEFINED RESPONSE ( CLIENT ERROR MESSAGE )
+    if (message) Toast.show({ text: message, type: 'danger' })
 
     return handleResponse(response)
   },
