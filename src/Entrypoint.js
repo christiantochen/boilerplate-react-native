@@ -19,7 +19,7 @@ export default class Entrypoint extends Component {
         <ThemeProvider theme={theme}>
           <Root>
             <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
-              <StatusBar backgroundColor="#4182E6" />
+              <StatusBar backgroundColor={theme.color.accent} />
               <Navigator />
             </PersistGate>
           </Root>

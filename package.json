@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint ./src/ --ignore-path .eslintignore",
+    "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.8.1",
@@ -18,7 +19,6 @@
     "@react-navigation/native": "^5.0.9",
     "@react-navigation/stack": "^5.2.0",
     "axios": "^0.19.2",
-    "geolib": "^3.2.1",
     "moment-timezone": "^0.5.28",
     "native-base": "^2.13.8",
     "prop-types": "^15.7.2",
@@ -26,11 +26,9 @@
     "react-dom": "^16.13.0",
     "react-native": "0.61.5",
     "react-native-gesture-handler": "^1.6.0",
-    "react-native-maps": "0.27.0",
     "react-native-reanimated": "^1.7.0",
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.2.0",
-    "react-native-timeline-flatlist": "^0.7.0",
     "react-native-vector-icons": "^6.6.0",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
@@ -45,10 +43,13 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^25.1.0",
     "eslint": "^6.8.0",
-    "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-better-styled-components": "^1.1.2",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-native": "^3.8.1",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.58.0",
+    "prettier": "^2.0.2",
     "react-test-renderer": "16.9.0"
   },
   "jest": {

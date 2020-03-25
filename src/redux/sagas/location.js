@@ -18,7 +18,7 @@ export function* getCurrentPosition(options) {
   Geolocation.getCurrentPosition(
     (position) => locationChannel.put({ type: LOCATION_ACTION_SET_POSITION, position }),
     (error) => locationChannel.put({ type: LOCATION_ACTION_SET_ERROR, error }),
-    options
+    options,
   )
 }
 
@@ -27,7 +27,7 @@ export function* watchCurrentPosition(options) {
   Geolocation.watchPosition(
     (position) => locationChannel.put({ type: LOCATION_ACTION_SET_POSITION, position }),
     (error) => locationChannel.put({ type: LOCATION_ACTION_SET_ERROR, error }),
-    options
+    options,
   )
 }
 
@@ -44,4 +44,4 @@ export function* requestAuthorization(action) {
   }
 }
 
-// export function* 
+// export function*

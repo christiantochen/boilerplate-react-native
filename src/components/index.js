@@ -1,2 +1,3 @@
-export FAIcon from './FAIcon'
-export Text from './Text'
+export * from './FAIcon'
+export * from './Text'
+export * from './Input'

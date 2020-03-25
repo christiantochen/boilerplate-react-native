@@ -1,10 +1,15 @@
-/**
- * Get query string
- *
- * @param   {*}   query   query object (any object that Object.entries() can handle)
- * @returns {string}      query string
- */
-export default (query = {}) => {
+export const handleParam = (url, params) => {
+  let compiledUrl = _.cloneDeep(url)
+
+  if (params)
+    Object.keys(params).forEach((param) => {
+      compiledUrl = compiledUrl.replace(`:${param}`, params[param])
+    })
+
+  return compiledUrl
+}
+
+export const handleQuery = (query = {}) => {
   if (!query) return ''
 
   // get array of key value pairs ([[k1, v1], [k2, v2]])
@@ -16,7 +21,7 @@ export default (query = {}) => {
       pair
         .filter((i) => i !== null)
         .map(encodeURIComponent)
-        .join('=')
+        .join('='),
     )
     .join('&')
 

@@ -1,0 +1,52 @@
+import axios from 'axios'
+import { store } from '../../redux'
+import { REFRESH_TOKEN_URL } from '../../fixtures/backendUrl'
+import { AUTH_ACTION_EXPIRED, AUTH_ACTION_SET_TOKEN } from '../../redux/actions'
+
+const httpInstance = axios.create({ timeout: 10000, baseURL: process.env.BACKEND_URL })
+
+const handleResponse = (res) => {
+  const { data, status } = res
+
+  return { ok: status && status >= 200 && status < 300, status, data }
+}
+
+const isAccessTokenExpired = (res) => res?.status === 401
+const isServerFault = (res) => res?.status >= 500 || res?.status < 600
+
+const refreshTokenAndRetry = (req) => {
+  const { auth } = store.getState()
+
+  return axios
+    .post(REFRESH_TOKEN_URL, { token: auth.refreshToken })
+    .then((res) => {
+      const token = res.data.token
+      store.dispatch({ type: AUTH_ACTION_SET_TOKEN, token, refreshToken: auth.refreshToken })
+      req.headers.authorization = `Bearer ${token}`
+      return httpInstance.request(req)
+    })
+    .catch((err) => {
+      const { response } = error
+      if (!isServerFault(response)) {
+        store.dispatch({ type: AUTH_ACTION_EXPIRED })
+      }
+
+      return handleResponse(err?.response)
+    })
+}
+
+httpInstance.interceptors.response.use(
+  (response) => handleResponse(response),
+  (error) => {
+    const { response, config } = error
+
+    if (isAccessTokenExpired(error.response) && !config._retry) {
+      config._retry = true
+      return refreshTokenAndRetry(config)
+    }
+
+    return handleResponse(response)
+  },
+)
+
+export default httpInstance

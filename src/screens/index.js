@@ -1,4 +1,5 @@
 import Splash from './Splash'
-import ExploreTab from './ExploreTab'
+import Home from './Home'
+import Login from './Login'
 
-export { Splash, ExploreTab }
+export { Splash, Home, Login }

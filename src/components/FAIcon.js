@@ -1,4 +1,4 @@
 import styled from 'styled-components'
-import FAIcon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
-export default styled(FAIcon)``
+export const FAIcon = styled(Icon)``

@@ -8,12 +8,14 @@ class SplashView extends Component {
     super(props)
   }
 
+  componentDidMount() {
+    setTimeout(() => {
+      this.props.navigation.replace('Login')
+    }, 2000)
+  }
+
   render() {
-    return (
-      <Wrapper>
-        <Text>DEVELOPMENT</Text>
-      </Wrapper>
-    )
+    return <Wrapper></Wrapper>
   }
 }
 
