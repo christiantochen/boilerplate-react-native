@@ -1,8 +1,7 @@
-import { Button, Form, Icon, Item } from 'native-base'
+import { Button, Form, Icon, Input, Item, Label, Text } from 'native-base'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
-import { Input, Label, Text } from '../../components'
 import { Wrapper } from './styles'
 
 class LoginView extends Component {
