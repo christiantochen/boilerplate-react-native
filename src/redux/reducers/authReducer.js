@@ -15,8 +15,8 @@ const initialState = {
 }
 
 const login = (state, action) => ({ username: action.username })
-const logout = (state) => initialState
-const expired = (state) => ({ ...state, token: undefined, refreshToken: undefined })
+const logout = state => initialState
+const expired = state => ({ ...state, token: undefined, refreshToken: undefined })
 
 const setToken = (state, action) => {
   const { token, refreshToken } = action

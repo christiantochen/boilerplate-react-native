@@ -2,7 +2,7 @@ import { store } from '../../redux'
 import { handleParam, handleQuery } from './handler'
 import httpInstance from './httpInstance'
 
-export const request = (config) => {
+export const request = config => {
   if (!config.headers) config.headers = {}
 
   if (!config.headers.authorization) {

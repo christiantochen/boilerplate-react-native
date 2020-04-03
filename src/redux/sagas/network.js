@@ -15,5 +15,5 @@ export function* watchNetworkChannel() {
 
 export function* watchCurrentNetwork() {
   networkChannel.put({ type: NETWORK_ACTION_REQUEST })
-  NetInfo.addEventListener((connection) => networkChannel.put({ type: NETWORK_ACTION_SET_CONNECTION, connection }))
+  NetInfo.addEventListener(connection => networkChannel.put({ type: NETWORK_ACTION_SET_CONNECTION, connection }))
 }

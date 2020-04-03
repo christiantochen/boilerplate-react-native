@@ -17,8 +17,8 @@ export function* watchLocationChannel() {
 export function* getCurrentPosition(options) {
   locationChannel.put({ type: LOCATION_ACTION_REQUEST })
   Geolocation.getCurrentPosition(
-    (position) => locationChannel.put({ type: LOCATION_ACTION_SET_POSITION, position }),
-    (error) => locationChannel.put({ type: LOCATION_ACTION_SET_ERROR, error }),
+    position => locationChannel.put({ type: LOCATION_ACTION_SET_POSITION, position }),
+    error => locationChannel.put({ type: LOCATION_ACTION_SET_ERROR, error }),
     options,
   )
 }
@@ -26,8 +26,8 @@ export function* getCurrentPosition(options) {
 export function* watchCurrentPosition(options) {
   locationChannel.put({ type: LOCATION_ACTION_REQUEST })
   Geolocation.watchPosition(
-    (position) => locationChannel.put({ type: LOCATION_ACTION_SET_POSITION, position }),
-    (error) => locationChannel.put({ type: LOCATION_ACTION_SET_ERROR, error }),
+    position => locationChannel.put({ type: LOCATION_ACTION_SET_POSITION, position }),
+    error => locationChannel.put({ type: LOCATION_ACTION_SET_ERROR, error }),
     options,
   )
 }
