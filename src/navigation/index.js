@@ -28,7 +28,6 @@ function ProtectedScreens() {
 export default function AppNavigator() {
   const [initialized, auth] = useSelector(state => [state.initialized, state.auth])
 
-  console.log(!initialized)
   if (!initialized) return <Splash />
 
   return (

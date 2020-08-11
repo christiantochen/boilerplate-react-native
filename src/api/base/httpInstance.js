@@ -53,9 +53,6 @@ httpInstance.interceptors.response.use(
       return refreshTokenAndRetry(config)
     }
 
-    // TODO: HANDLE ERROR WITH UNDEFINED RESPONSE ( CLIENT ERROR MESSAGE )
-    if (message) Toast.show({ text: message, type: 'danger' })
-
     return handleResponse(response)
   },
 )

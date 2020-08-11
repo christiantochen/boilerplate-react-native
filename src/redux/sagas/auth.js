@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects'
+import { call, delay, put, takeLatest } from 'redux-saga/effects'
 
 import api from '../../api'
 import {
@@ -15,15 +15,16 @@ function* login(action) {
 
   yield put({ type: LOADING_ACTION_SET_START })
 
-  const res = yield call(api.login, username, password)
+  yield delay(2000)
+  // const res = yield call(api.login, username, password)
 
-  if (res.ok) {
-    const { token, refreshToken } = res.data
-    yield put({ type: AUTH_ACTION_SET_TOKEN, token, refreshToken })
-  } else {
-    // TODO: DEFINE ERROR STRUCTURES WITH BACKEND
-    yield put({ type: AUTH_ACTION_SET_ERROR, error: res.data?.error })
-  }
+  // if (res.ok) {
+  //   const { token, refreshToken } = res.data
+  //   yield put({ type: AUTH_ACTION_SET_TOKEN, token, refreshToken })
+  // } else {
+  //   // TODO: DEFINE ERROR STRUCTURES WITH BACKEND
+  //   yield put({ type: AUTH_ACTION_SET_ERROR, error: res.data?.error })
+  // }
 
   yield put({ type: LOADING_ACTION_SET_END })
 }
