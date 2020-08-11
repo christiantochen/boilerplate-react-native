@@ -1,14 +1,16 @@
-import { call, fork, put, take } from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects'
 
 import api from '../../api'
 import {
+  AUTH_ACTION_LOGIN,
+  AUTH_ACTION_LOGOUT,
   AUTH_ACTION_SET_ERROR,
   AUTH_ACTION_SET_TOKEN,
   LOADING_ACTION_SET_END,
   LOADING_ACTION_SET_START,
 } from '../actions'
 
-export function* login(action) {
+function* login(action) {
   const { username, password } = action
 
   yield put({ type: LOADING_ACTION_SET_START })
@@ -26,6 +28,9 @@ export function* login(action) {
   yield put({ type: LOADING_ACTION_SET_END })
 }
 
-export function* logout() {
-  // clear all user data
+function* logout() {}
+
+export default function* saga() {
+  yield takeLatest(AUTH_ACTION_LOGIN, login)
+  yield takeLatest(AUTH_ACTION_LOGOUT, logout)
 }

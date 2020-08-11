@@ -1,20 +1,20 @@
 import Geolocation from '@react-native-community/geolocation'
 import { PermissionsAndroid } from 'react-native'
 import { channel } from 'redux-saga'
-import { call, fork, put, take } from 'redux-saga/effects'
+import { call, fork, put, spawn, take, takeLatest } from 'redux-saga/effects'
 
 import { LOCATION_ACTION_REQUEST, LOCATION_ACTION_SET_ERROR, LOCATION_ACTION_SET_POSITION } from '../actions'
 
-export const locationChannel = channel()
+const locationChannel = channel()
 
-export function* watchLocationChannel() {
+function* watchLocationChannel() {
   while (true) {
     const action = yield take(locationChannel)
     yield put(action)
   }
 }
 
-export function* getCurrentPosition(options) {
+function* getCurrentPosition(options) {
   locationChannel.put({ type: LOCATION_ACTION_REQUEST })
   Geolocation.getCurrentPosition(
     position => locationChannel.put({ type: LOCATION_ACTION_SET_POSITION, position }),
@@ -23,7 +23,7 @@ export function* getCurrentPosition(options) {
   )
 }
 
-export function* watchCurrentPosition(options) {
+function* watchCurrentPosition(options) {
   locationChannel.put({ type: LOCATION_ACTION_REQUEST })
   Geolocation.watchPosition(
     position => locationChannel.put({ type: LOCATION_ACTION_SET_POSITION, position }),
@@ -32,7 +32,7 @@ export function* watchCurrentPosition(options) {
   )
 }
 
-export function* requestAuthorization(action) {
+function* checkPermission(action) {
   if ([action.error.PERMISSION_DENIED, action.error.POSITION_UNAVAILABLE].includes(action.error.code)) {
     const granted = yield call(PermissionsAndroid.request, PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
       title: 'Location Permission',
@@ -45,4 +45,9 @@ export function* requestAuthorization(action) {
   }
 }
 
-// export function*
+export default function* saga() {
+  yield spawn(watchLocationChannel)
+  yield call(watchCurrentPosition)
+
+  yield takeLatest(LOCATION_ACTION_SET_ERROR, checkPermission)
+}

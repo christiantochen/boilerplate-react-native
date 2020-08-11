@@ -1,48 +1,39 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import PropTypes from 'prop-types'
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
+import { useSelector } from 'react-redux'
 
-import { Home, Login, Splash } from '../screens'
+import { Home, Login } from '../screens'
+import NavigationService from './NavigationService'
 
 const Stack = createStackNavigator()
 
-class AppNavigator extends Component {
-  AuthScreens = (
+function AuthScreens() {
+  return (
     <>
-      <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="Login" component={Login} />
     </>
   )
+}
 
-  ProtectedScreens = (
+function ProtectedScreens() {
+  return (
     <>
       <Stack.Screen name="Home" component={Home} />
     </>
   )
-
-  render() {
-    return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="App" headerMode="none">
-          {this.props.auth.token ? this.ProtectedScreens : this.AuthScreens}
-        </Stack.Navigator>
-      </NavigationContainer>
-    )
-  }
 }
 
-AppNavigator.propTypes = {
-  auth: PropTypes.shape({
-    token: PropTypes.string,
-  }).isRequired,
-}
+export default function AppNavigator() {
+  const auth = useSelector(state => state.auth)
 
-function mapStateToProps(state) {
-  return {
-    auth: state.auth,
-  }
+  return (
+    <NavigationContainer ref={navigatorRef => NavigationService.setTopLevelNavigator(navigatorRef)}>
+      <Stack.Navigator initialRouteName="App" headerMode="none">
+        {/* {auth.token ? ProtectedScreens() : AuthScreens()} */}
+        {/* {AuthScreens()} */}
+        {ProtectedScreens()}
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
 }
-
-export default connect(mapStateToProps, null)(AppNavigator)

@@ -11,7 +11,6 @@ const config = {
   key: 'root',
   storage: AsyncStorage,
   blacklist: ['navigation', 'loading', 'network', 'location'],
-  debug: true, //to get useful logging
 }
 
 const middleware = []
@@ -20,6 +19,8 @@ const sagaMiddleware = createSagaMiddleware()
 middleware.push(sagaMiddleware)
 
 if (__DEV__) {
+  config.timeout = 0
+  config.debug = true
   middleware.push(createLogger())
 }
 

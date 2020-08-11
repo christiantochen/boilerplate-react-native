@@ -1,17 +1,12 @@
-import { all, call, spawn, takeLatest } from 'redux-saga/effects'
+import { spawn } from 'redux-saga/effects'
 
-import { AUTH_ACTION_LOGIN, LOCATION_ACTION_SET_ERROR } from '../actions'
-import { login } from './auth'
-import { requestAuthorization, watchCurrentPosition, watchLocationChannel } from './location'
-import { watchCurrentNetwork, watchNetworkChannel } from './network'
+import authSaga from './auth'
+import locationSaga from './location'
+import networkSaga from './network'
 
 export default function* rootSaga() {
-  yield spawn(watchLocationChannel)
-  yield spawn(watchNetworkChannel)
-
-  yield call(watchCurrentPosition)
-  yield call(watchCurrentNetwork)
-
-  yield takeLatest(AUTH_ACTION_LOGIN, login)
-  yield takeLatest(LOCATION_ACTION_SET_ERROR, requestAuthorization)
+  yield spawn(locationSaga)
+  yield spawn(networkSaga)
+  // =======================
+  yield spawn(authSaga)
 }
