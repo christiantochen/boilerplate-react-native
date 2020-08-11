@@ -1,4 +1,4 @@
 export * from './authAction'
-export * from './loadingAction'
+export * from './commonAction'
 export * from './networkAction'
 export * from './locationAction'

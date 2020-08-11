@@ -10,7 +10,7 @@ import sagas from './sagas'
 const config = {
   key: 'root',
   storage: AsyncStorage,
-  blacklist: ['navigation', 'loading', 'network', 'location'],
+  blacklist: ['navigation', 'loading', 'network', 'location', 'initialized'],
 }
 
 const middleware = []
