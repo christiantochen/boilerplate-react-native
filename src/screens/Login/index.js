@@ -18,12 +18,12 @@ export default function Login() {
   return (
     <Wrapper>
       <Form style={{ flex: 1 }}>
-        <Item inlineLabel success last>
+        <Item stackedLabel success last>
           <Label>Username</Label>
           <Input autoCapitalize="none" value={username} onChangeText={setUsername} />
-          <Icon name="checkmark-circle" />
+          <Icon name="chatbubble" />
         </Item>
-        <Item inlineLabel error last>
+        <Item stackedLabel error last>
           <Label>Password</Label>
           <Input secureTextEntry={true} autoCapitalize="none" value={password} onChangeText={setPassword} />
           <Icon name="close-circle" />

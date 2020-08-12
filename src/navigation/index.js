@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
 import { useSelector } from 'react-redux'
 
-import Splash from '../components/splash'
+import Splash from '../components/Splash'
 import { Home, Login } from '../screens'
 import NavigationService from './NavigationService'
 

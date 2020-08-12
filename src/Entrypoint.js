@@ -1,7 +1,3 @@
-/**
- * React Native App
- * Everthing starts from the entrypoint
- */
 import { Root } from 'native-base'
 import React from 'react'
 import { StatusBar } from 'react-native'
