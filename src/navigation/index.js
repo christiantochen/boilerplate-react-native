@@ -5,37 +5,31 @@ import { useSelector } from 'react-redux'
 
 import Splash from '../components/Splash'
 import { Home, Login } from '../screens'
-import NavigationService from './NavigationService'
+import { navigationRef } from './RootNavigation'
 
 const Stack = createStackNavigator()
-
-function AuthScreens() {
-  return (
-    <>
-      <Stack.Screen name="Login" component={Login} />
-    </>
-  )
-}
-
-function ProtectedScreens() {
-  return (
-    <>
-      <Stack.Screen name="Home" component={Home} />
-    </>
-  )
-}
 
 export default function AppNavigator() {
   const [initialized, auth] = useSelector(state => [state.initialized, state.auth])
 
+  const AuthScreens = (
+    <>
+      <Stack.Screen name="Login" component={Login} />
+    </>
+  )
+
+  const ProtectedScreens = (
+    <>
+      <Stack.Screen name="Home" component={Home} />
+    </>
+  )
+
   if (!initialized) return <Splash />
 
   return (
-    <NavigationContainer ref={navigatorRef => NavigationService.setTopLevelNavigator(navigatorRef)}>
+    <NavigationContainer ref={navigationRef}>
       <Stack.Navigator initialRouteName="App" headerMode="none">
-        {/* {auth.token ? ProtectedScreens() : AuthScreens()} */}
-        {AuthScreens()}
-        {/* {ProtectedScreens()} */}
+        {auth.token ? ProtectedScreens : AuthScreens}
       </Stack.Navigator>
     </NavigationContainer>
   )

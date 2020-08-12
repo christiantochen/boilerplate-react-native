@@ -20,7 +20,8 @@ function* login(action) {
 
   // if (res.ok) {
   //   const { token, refreshToken } = res.data
-  //   yield put({ type: AUTH_ACTION_SET_TOKEN, token, refreshToken })
+  // yield put({ type: AUTH_ACTION_SET_TOKEN, token, refreshToken })
+  yield put({ type: AUTH_ACTION_SET_TOKEN, token: 'something', refreshToken: 'somethingRefresh' })
   // } else {
   //   // TODO: DEFINE ERROR STRUCTURES WITH BACKEND
   //   yield put({ type: AUTH_ACTION_SET_ERROR, error: res.data?.error })
