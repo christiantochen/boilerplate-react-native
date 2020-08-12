@@ -23,6 +23,7 @@
     "react-native/no-color-literals": 2,
     "react-native/sort-styles": ["error", "asc", { "ignoreClassNames": false, "ignoreStyleProperties": false }],
     "react/prop-types": [2, { "ignore": ["navigation"] }],
+    "react/display-name": 0,
     "better-styled-components/sort-declarations-alphabetically": 2
   },
   "settings": {

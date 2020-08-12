@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 
 import Splash from '../components/Splash'
 import { Home, Login } from '../screens'
+import DrawerNavigator from './DrawerNavigator'
 import { navigationRef } from './RootNavigation'
 
 const Stack = createStackNavigator()
@@ -20,7 +21,7 @@ export default function AppNavigator() {
 
   const ProtectedScreens = (
     <>
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Home" component={DrawerNavigator} />
     </>
   )
 

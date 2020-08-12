@@ -10,13 +10,13 @@ import { store } from './redux'
 
 export default function EntryPoint() {
   return (
-    <Root>
-      <StatusBar backgroundColor={theme.color.accent} />
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <Root>
+          <StatusBar backgroundColor={theme.color.accent} />
           <Gate />
-        </ThemeProvider>
-      </Provider>
-    </Root>
+        </Root>
+      </ThemeProvider>
+    </Provider>
   )
 }

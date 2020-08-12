@@ -60,7 +60,7 @@ export default function LoginCard({ style }) {
         </Form>
       </CardItem>
       <CardItem>
-        <Body></Body>
+        <Body />
         <Right>
           <Text>Forgot Password?</Text>
         </Right>
