@@ -12,7 +12,12 @@ export default function LoginCard({ style }) {
   const [error, setError] = useState({ username: false, password: false })
 
   function validateForm() {
-    return !error.username && !error.password
+    const usernameIsError = form.username.length === 0
+    const passwordIsError = form.password.length === 0
+
+    setError({ username: usernameIsError, password: passwordIsError })
+
+    return !usernameIsError && !passwordIsError
   }
 
   function handleOnChangeText(field, value) {
