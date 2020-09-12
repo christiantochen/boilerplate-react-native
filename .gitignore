@@ -24,6 +24,8 @@ DerivedData
 # Android/IntelliJ
 #
 build/
+**/res/drawable-*
+**/res/raw
 .idea
 .gradle
 *.bundle
@@ -57,3 +59,6 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+
+# Environment
+.env
