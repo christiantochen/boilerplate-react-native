@@ -2,25 +2,27 @@
  * React Native App
  * Everthing starts from the entrypoint
  */
-import React, { Component } from 'react'
-import { ActivityIndicator } from 'react-native'
-import { Provider } from 'react-redux'
-import { PersistGate } from 'redux-persist/es/integration/react'
-import Navigator from './navigation'
-import configureStore from './config/store'
-import { Root } from 'native-base'
-const { persistor, store } = configureStore()
+import React, { Component } from 'react';
+import { ActivityIndicator, SafeAreaView } from 'react-native';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/es/integration/react';
+import Navigator from './navigation';
+import { persistor, store } from './store';
+import { TailwindProvider } from 'tailwind-rn';
+import utilities from '../tailwind.json';
 
-export default class Entrypoint extends Component {
-  render() {
-    return (
-      <Root>
-        <Provider store={store}>
+const Entrypoint = () => {
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <Provider store={store}>
+        <TailwindProvider utilities={utilities}>
           <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
             <Navigator />
           </PersistGate>
-        </Provider>
-      </Root>
-    )
-  }
-}
+        </TailwindProvider>
+      </Provider>
+    </SafeAreaView>
+  );
+};
+
+export default Entrypoint;

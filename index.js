@@ -2,11 +2,13 @@
  * @format
  */
 
-import { AppRegistry } from 'react-native'
-import Entrypoint from './src/Entrypoint'
-import { name as appName } from './app.json'
+import { AppRegistry, LogBox } from 'react-native';
+import Entrypoint from './src/Entrypoint';
+import { name as appName } from './app.json';
 
-AppRegistry.registerComponent(appName, () => Entrypoint)
+LogBox.ignoreLogs(['Remote debugger']);
+
+AppRegistry.registerComponent(appName, () => Entrypoint);
 
 // const modules = require.getModules()
 // const moduleIds = Object.keys(modules)
